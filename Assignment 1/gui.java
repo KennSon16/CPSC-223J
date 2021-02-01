@@ -19,7 +19,7 @@
   //Programming language: Java
   //Files: main.java, gui.java, Payroll.java, run.sh
   //Date project began: 2021-January-27.
-  //Date of last update: 2021-January-27.
+  //Date of last update: 2021-February-2.
   //Status: In progress; testing completed.
   //Purpose: This program shows a simple user-interface that allows the user to input a name, hours that person has worked and
   //         the hourly payrate in order to calculate the gross pay for that person.
@@ -34,7 +34,6 @@
   //Purpose: This class defines the user interface.
   //This module (class) is called from the main class.
 
-//import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -45,35 +44,32 @@ import javax.swing.JLabel; // adds labels on the panels
 import java.awt.Color;
 import javax.swing.JPanel;
 import java.awt.Dimension;
+import javax.swing.BorderFactory;
+
+// These imports are saved here incase of any fails withj other imports
+//import java.awt.FlowLayout;
+//import java.awt.BorderLayout;
 //import javax.swing.Timer;
 //import java.awt.Insets;
-import javax.swing.BorderFactory;
-//import java.awt.BorderLayout;
 
 public class gui extends JFrame
 {
-  //private final int framewidth = 300;
-  //private final int frameheight = 500;
-  private int buttonWidth = 75;
-  private int buttonHeight = 45;
-  private Dimension buttonDimension;
-
-  private JLabel title1; // Business name
-  private JLabel title2; // subtitle
-  private JLabel name1; // "Employee name:"
-  private JTextField textName1; // name
-  private JLabel hours1; // "Hours worked:"
-  private JTextField textHour1; //hours
-  private JLabel rates1; // "Hourly pay rate:"
-  private JTextField textRate1; // rate
-  private JLabel name2; // "Name of Employee"
-  private JLabel name3; // put first name
-  private JLabel rpay1; // "Regular pay"
-  private JLabel rpay2; // regularPay()
-  private JLabel opay1; // "Overtime pay"
-  private JLabel opay2; // overtimePay()
-  private JLabel gpay1; // "Gross pay"
-  private JLabel gpay2; // grossPay()
+  private JLabel mainTitle; // Business name
+  private JLabel subtitle; // subtitle
+  private JLabel displayName; // "Employee name:"
+  private JTextField textboxName; // name
+  private JLabel displayHours; // "Hours worked:"
+  private JTextField textboxHours; //hours
+  private JLabel displayRates; // "Hourly pay rate:"
+  private JTextField textboxRate; // rate
+  private JLabel displayName2; // "Name of Employee"
+  private JLabel firstNameOnly; // put first name
+  private JLabel displayRegularPay; // "Regular pay"
+  private JLabel regularPayment; // regularPay()
+  private JLabel displayOvertimePay; // "Overtime pay"
+  private JLabel overtimePayment; // overtimePay()
+  private JLabel displayGrossPay; // "Gross pay"
+  private JLabel grossPayment; // grossPay()
   private JButton clearButton;
   private JButton computeButton;
   private JButton quitButton;
@@ -87,8 +83,6 @@ public class gui extends JFrame
   {//setting the dimensions and layout for the frame
     super("Program 1");
     setLayout(new GridLayout(4,1));
-    //setSize(framewidth,frameheight);
-    // setLocationRelativeTo(null); // opens the window on the middle of the screen
 
     //CREATING PANELS
     //first panel red
@@ -96,70 +90,73 @@ public class gui extends JFrame
     titlePanel.setBackground(new Color(245,88,64));
     titlePanel.setLayout(new GridLayout(2,1));
 
-    title1 = new JLabel();
-    title1.setText("Kenn\'s Designs Company");
-    title1.setHorizontalAlignment(JLabel.CENTER);
-    title2 = new JLabel();
-    title2.setText("Payroll Calculator");
-    title2.setHorizontalAlignment(JLabel.CENTER);
+    mainTitle = new JLabel();
+    mainTitle.setText("Kenn\'s Designs Company");
+    mainTitle.setHorizontalAlignment(JLabel.CENTER);
+    subtitle = new JLabel();
+    subtitle.setText("Payroll Calculator");
+    subtitle.setHorizontalAlignment(JLabel.CENTER);
 
 
 
-    titlePanel.add(title1);
-    titlePanel.add(title2);
+    titlePanel.add(mainTitle);
+    titlePanel.add(subtitle);
 
     // //second panel yellow
     inputPanel = new JPanel();
     inputPanel.setBackground(new Color(235,218,127));
     inputPanel.setLayout(new GridLayout(3,2));
-    name1 = new JLabel();
-    name1.setText("Employee\'s Name:");
-    name1.setHorizontalAlignment(JLabel.RIGHT);
-    inputPanel.add(name1);
-    textName1 = new JTextField();
-    inputPanel.add(textName1);
-    hours1 = new JLabel();
-    hours1.setText("Hours worked:");
-    hours1.setHorizontalAlignment(JLabel.RIGHT);
-    inputPanel.add(hours1);
-    textHour1 = new JTextField();
-    inputPanel.add(textHour1);
-    rates1 = new JLabel();
-    rates1.setText("Hourly pay rate:");
-    rates1.setHorizontalAlignment(JLabel.RIGHT);
-    inputPanel.add(rates1);
-    textRate1 = new JTextField();
-    inputPanel.add(textRate1);
+    displayName = new JLabel();
+    displayName.setText("Employee\'s Name:");
+    displayName.setHorizontalAlignment(JLabel.RIGHT);
+    inputPanel.add(displayName);
+    textboxName = new JTextField();
+    textboxName.setHorizontalAlignment(JLabel.CENTER);
+    inputPanel.add(textboxName);
+    displayHours = new JLabel();
+    displayHours.setText("Hours worked:");
+    displayHours.setHorizontalAlignment(JLabel.RIGHT);
+    inputPanel.add(displayHours);
+    textboxHours = new JTextField();
+    textboxHours.setHorizontalAlignment(JLabel.CENTER);
+    inputPanel.add(textboxHours);
+    displayRates = new JLabel();
+    displayRates.setText("Hourly pay rate:");
+    displayRates.setHorizontalAlignment(JLabel.RIGHT);
+    inputPanel.add(displayRates);
+    textboxRate = new JTextField();
+    textboxRate.setHorizontalAlignment(JLabel.CENTER);
+    inputPanel.add(textboxRate);
 
     // //third panel green
     outputPanel = new JPanel();
     outputPanel.setLayout(new GridLayout(4,2));
     outputPanel.setBackground(new Color(155,235,127));
-    name2 = new JLabel("Name of employee:");
-    name2.setHorizontalAlignment(JLabel.RIGHT);
-    name3 = new JLabel("");
-    name3.setHorizontalAlignment(JLabel.CENTER);
-    rpay1 = new JLabel("Regular pay:");
-    rpay1.setHorizontalAlignment(JLabel.RIGHT);
-    rpay2 = new JLabel("");
-    rpay2.setHorizontalAlignment(JLabel.CENTER);
-    opay1 = new JLabel("Overtime pay:");
-    opay1.setHorizontalAlignment(JLabel.RIGHT);
-    opay2 = new JLabel("");
-    opay2.setHorizontalAlignment(JLabel.CENTER);
-    gpay1 = new JLabel("Gross pay:");
-    gpay1.setHorizontalAlignment(JLabel.RIGHT);
-    gpay2 = new JLabel("");
-    gpay2.setHorizontalAlignment(JLabel.CENTER);
+    displayName2 = new JLabel("Name of employee:");
+    displayName2.setHorizontalAlignment(JLabel.RIGHT);
+    firstNameOnly = new JLabel("");
+    firstNameOnly.setHorizontalAlignment(JLabel.CENTER);
+    displayRegularPay = new JLabel("Regular pay:");
+    displayRegularPay.setHorizontalAlignment(JLabel.RIGHT);
+    regularPayment = new JLabel("");
+    regularPayment.setHorizontalAlignment(JLabel.CENTER);
+    displayOvertimePay = new JLabel("Overtime pay:");
+    displayOvertimePay.setHorizontalAlignment(JLabel.RIGHT);
+    overtimePayment = new JLabel("");
+    overtimePayment.setHorizontalAlignment(JLabel.CENTER);
+    displayGrossPay = new JLabel("Gross pay:");
+    displayGrossPay.setHorizontalAlignment(JLabel.RIGHT);
+    grossPayment = new JLabel("");
+    grossPayment.setHorizontalAlignment(JLabel.CENTER);
 
-    outputPanel.add(name2);
-    outputPanel.add(name3);
-    outputPanel.add(rpay1);
-    outputPanel.add(rpay2);
-    outputPanel.add(opay1);
-    outputPanel.add(opay2);
-    outputPanel.add(gpay1);
-    outputPanel.add(gpay2);
+    outputPanel.add(displayName2);
+    outputPanel.add(firstNameOnly);
+    outputPanel.add(displayRegularPay);
+    outputPanel.add(regularPayment);
+    outputPanel.add(displayOvertimePay);
+    outputPanel.add(overtimePayment);
+    outputPanel.add(displayGrossPay);
+    outputPanel.add(grossPayment);
 
 
     // //fourth panel blue
@@ -169,19 +166,15 @@ public class gui extends JFrame
     clearButton = new JButton("Clear");
     computeButton = new JButton("Compute");
     quitButton = new JButton("Quit");
-    buttonDimension = new Dimension(buttonWidth, buttonHeight);
-    clearButton.setSize(buttonDimension);
-    computeButton.setSize(buttonDimension);
-    quitButton.setSize(buttonDimension);
-    buttonPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+    buttonPanel.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
     buttonPanel.add(clearButton);
     buttonPanel.add(computeButton);
     buttonPanel.add(quitButton);
 
-    buttonhandler myhandler = new buttonhandler();
-    clearButton.addActionListener(myhandler);
-    computeButton.addActionListener(myhandler);
-    quitButton.addActionListener(myhandler);
+    buttonhandler myButtons = new buttonhandler();
+    clearButton.addActionListener(myButtons);
+    computeButton.addActionListener(myButtons);
+    quitButton.addActionListener(myButtons);
 
     add(titlePanel);
     add(inputPanel);
@@ -197,34 +190,36 @@ public class gui extends JFrame
     {
       if(event.getSource() == clearButton)
       {
-        textHour1.setText("");
-        textName1.setText("");
-        textRate1.setText("");
-        name3.setText("");
-        rpay2.setText("");
-        opay2.setText("");
-        gpay2.setText("");
+        textboxHours.setText("");
+        textboxName.setText("");
+        textboxRate.setText("");
+        firstNameOnly.setText("");
+        regularPayment.setText("");
+        overtimePayment.setText("");
+        grossPayment.setText("");
 
       }
       else if (event.getSource() == computeButton)
       { //initializes everything to 0;
         Payroll money = new Payroll();
-        String employeeName = textName1.getText();
+        String employeeName = textboxName.getText();
         String firstName;
         double employeeHours;
         double employeeRate;
         try
+        { // if user inputs anything that is not a number then it would go to catch
+          employeeHours = (Double.valueOf(textboxHours.getText()));
+        } // catch makes the value 0
+        catch (Exception e)
         {
-          employeeHours = (Double.valueOf(textHour1.getText()));
-        }
-        catch (Exception e) {
           employeeHours = 0.00;
         }
         try
-        {
-          employeeRate = (Double.valueOf(textRate1.getText()));
+        { // if user inputs anything that is not a number then it would go to catch
+          employeeRate = (Double.valueOf(textboxRate.getText()));
         }
-        catch (Exception e) {
+        catch (Exception e)
+        {
             employeeRate = 0.00;
         }
         double regPay = money.regularPay(employeeHours, employeeRate);
@@ -234,7 +229,8 @@ public class gui extends JFrame
         {
           firstName = "No Name";
         } // this if statement defaults to No Name if left empty
-        else if (employeeName.contains(" ")) {
+        else if (employeeName.contains(" "))
+        { // assumes if the string has a space the charaters before the space is the first name
           String[] nameParts = employeeName.split(" ");
           firstName = nameParts[0];
         }
@@ -242,17 +238,18 @@ public class gui extends JFrame
         {
           firstName = employeeName;
         }
-        name3.setText(firstName);
-        rpay2.setText(String.format("%.2f", regPay));
-        opay2.setText(String.format("%.2f", overPay));
-        gpay2.setText(String.format("%.2f", grossPay));
-        name3.repaint();
-        rpay2.repaint();
-        opay2.repaint();
-        gpay2.repaint();
+        firstNameOnly.setText(firstName);
+        regularPayment.setText(String.format("%.2f", regPay)); //rounding the decimals places
+        overtimePayment.setText(String.format("%.2f", overPay));
+        grossPayment.setText(String.format("%.2f", grossPay));
+        firstNameOnly.repaint(); //refreshes the labels
+        regularPayment.repaint();
+        overtimePayment.repaint();
+        grossPayment.repaint();
 
       } // takes only the first name if given a full name
-      else if (event.getSource() == quitButton){
+      else if (event.getSource() == quitButton)
+      {
         System.exit(0);
       } // implements the quit button
       else
