@@ -17,7 +17,7 @@ echo View list of source files
 ls -l *.java
 
 echo Compile Payroll.java
-javac Payroll.java
+javac math.java
 
 echo Compile gui.java
 javac gui.java

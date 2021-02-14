@@ -19,12 +19,10 @@
   //Programming language: Java
   //Files: main.java, gui.java, Payroll.java, run.sh
   //Date project began: 2021-January-27.
-  //Date of last update: 2021-February-2.
+  //Date of last update: 2021-February-10.
   //Status: In progress; testing completed.
   //Purpose: This program shows a simple user-interface that allows the user to input a name, hours that person has worked and
-  //         the hourly payrate in order to calculate the gross pay for that person.
-  //Special feature: The program shows how to colorize individual characters with a string.  The program has a built-in 3.5
-  //second delay after clicking on the Exit button.
+  //         the hourly payrate in order to calculate the gross pay, overtime pay, and regular pay for that person.
   //Nice feature: If no values are entered into the input boxes then zero is assumed to be the input.
   //Base test system: Linux system with Bash shell and openjdk-14-jdk
 
@@ -39,7 +37,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JFrame; //frame of the window
 import javax.swing.JButton; // adds buttons
-import javax.swing.JTextField;  //adds a text box for
+import javax.swing.JTextField;  //adds a text box
 import javax.swing.JLabel; // adds labels on the panels
 import java.awt.Color;
 import javax.swing.JPanel;
@@ -221,6 +219,14 @@ public class gui extends JFrame
         catch (Exception e)
         {
             employeeRate = 0.00;
+        }
+        if (employeeHours < 0) // if employeeHours is a negative number then it becomes 0
+        {
+          employeeHours = 0.00;
+        }
+        if (employeeRate < 0) // if employeeRate is a negative number then it becomes 0
+        {
+          employeeRate = 0.00;
         }
         double regPay = money.regularPay(employeeHours, employeeRate);
         double overPay = money.overtime(employeeHours, employeeRate);

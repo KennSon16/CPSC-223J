@@ -19,13 +19,13 @@
   //Programming language: Java
   //Files: main.java, gui.java, Payroll.java, run.sh
   //Date project began: 2021-January-27.
-  //Date of last update: 2021-January-27.
+  //Date of last update: 2021-February-10.
   //Status: In progress; testing completed.
   //Purpose: This program shows a simple user-interface that allows the user to input a name, hours that person has worked and
-  //         the hourly payrate in order to calculate the gross pay for that person.
-  //Special feature: The program shows how to colorize individual characters with a string.  The program has a built-in 3.5
-  //second delay after clicking on the Exit button.
-  //Nice feature: If no values are entered into the input boxes then zero is assumed to be the input.
+  //         the hourly payrate in order to calculate the gross pay, overtime pay, and regular pay for that person.
+  //Nice features: If no values are entered into the input boxes then zero is assumed to be the input.
+  //               If given a first and last name will only print out the first name.
+  //               If no name is entered into the textbox then will be print "No Name"
   //Base test system: Linux system with Bash shell and openjdk-14-jdk
 
   //This module
@@ -48,7 +48,7 @@ public class Payroll
     //overtime is 0 by default;
     if (hours > 40.0)
     {
-      return (hours - 40) * 0.5 * hourlyRate;
+      return (hours - 40) * 1.5 * hourlyRate;
     }
     return 0.0;
   }
