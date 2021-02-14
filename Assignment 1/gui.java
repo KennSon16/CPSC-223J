@@ -19,7 +19,7 @@
   //Programming language: Java
   //Files: main.java, gui.java, Payroll.java, run.sh
   //Date project began: 2021-January-27.
-  //Date of last update: 2021-February-10.
+  //Date of last update: 2021-February-13.
   //Status: In progress; testing completed.
   //Purpose: This program shows a simple user-interface that allows the user to input a name, hours that person has worked and
   //         the hourly payrate in order to calculate the gross pay, overtime pay, and regular pay for that person.
@@ -206,6 +206,10 @@ public class gui extends JFrame
         double employeeRate;
         try
         { // if user inputs anything that is not a number then it would go to catch
+          if (!textboxHours.getText().contains(".")) //checks for a double
+          {
+            throw new Exception("Number was an integer.");
+          }
           employeeHours = (Double.valueOf(textboxHours.getText()));
         } // catch makes the value 0
         catch (Exception e)
@@ -214,6 +218,10 @@ public class gui extends JFrame
         }
         try
         { // if user inputs anything that is not a number then it would go to catch
+          if (!textboxRate.getText().contains(".")) //checks for a double
+          {
+            throw new Exception("Number was an integer.");
+          }
           employeeRate = (Double.valueOf(textboxRate.getText()));
         }
         catch (Exception e)

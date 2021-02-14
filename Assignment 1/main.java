@@ -19,7 +19,7 @@
   //Programming language: Java
   //Files: main.java, gui.java, Payroll.java, run.sh
   //Date project began: 2021-January-27.
-  //Date of last update: 2021-February-10.
+  //Date of last update: 2021-February-13.
   //Status: In progress; testing completed.
   //Purpose: This program shows a simple user-interface that allows the user to input a name, hours that person has worked and
   //         the hourly payrate in order to calculate the gross pay, overtime pay, and regular pay for that person.
