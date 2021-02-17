@@ -10,13 +10,13 @@ ls -l *.java
 echo Compile Algorithm.java
 javac Algorithm.java
 
-echo Compile gui.java
-javac gui.java
+echo Compile ui.java
+javac ui.java
 
-echo Compile main.java
-javac main.java
+echo Compile driver.java
+javac driver.java
 
 echo Execute the CPSC223J Test 1 program
-java main.java
+java driver.java
 
 echo End of execution.  Have a nice day.

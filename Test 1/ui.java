@@ -12,7 +12,7 @@ import java.awt.Color;
 import javax.swing.JPanel;
 import javax.swing.BorderFactory;
 
-public class gui extends JFrame
+public class ui extends JFrame
 {
   private JLabel mainTitle;
   private JLabel subtitle;
@@ -34,7 +34,7 @@ public class gui extends JFrame
   private JPanel buttonPanel;
 
 
-  public gui()
+  public ui()
   {
     super("CPSC223J Test 1");
     setLayout(new GridLayout(4,1)); // used 4 panels but made it look like three when ran for spacing

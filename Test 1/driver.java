@@ -2,11 +2,11 @@
 //CPSC223J Test 1
 
 import javax.swing.JFrame;
-public class main
+public class driver
 {
   public static void main(String[] args)
   {
-    gui myframe = new gui();
+    ui myframe = new ui();
     myframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     myframe.setSize(350,535);
     myframe.setResizable(false);
