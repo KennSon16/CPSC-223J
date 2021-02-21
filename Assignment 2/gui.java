@@ -32,21 +32,18 @@
   //Compile : javac gui.java
   //This is the top level module.  This module activates the user interface.
 
-import java.awt.Color;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JButton; // adds buttons
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTextField;  //adds a text box
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
+
 
 public class gui extends JFrame {
 
 private JPanel titlePanel;
+private JLabel titleLabel;
 private quadPanel movePanel;
 private JPanel controlPanel;
-// private JLabel titleLabel;
-// private JLabel speedLabel;
+private JLabel speedLabel;
 private JTextField speedInput;
 private JButton startButton;
 private JButton pauseButton;
@@ -56,20 +53,95 @@ private JButton quitButton;
   {//setting the dimensions and layout for the frame
     super("Program 2");
     setLocationRelativeTo(null);
+    setLayout(null);
     //**********TITLE PANEL**********//
     titlePanel = new JPanel();
     titlePanel.setBackground(new Color(91, 193, 245));
-    titlePanel.setBounds(0, 0 , 800, 100);
+    titlePanel.setBounds(0, 0 , 1920, 100);
+    titlePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+    titleLabel = new JLabel();
+    titleLabel.setText("<html>Diamond Animation <br/> by Kenn Son");
+    titlePanel.add(titleLabel);
 
     //********ANIMATION PANEL********//
     //128, 235, 52 RGB color looks like grass!
+    movePanel = new quadPanel();
+
     //**********MARCO PANEL**********//
     controlPanel = new JPanel();
     controlPanel.setBackground(new Color(250, 206, 130));
-    titlePanel.setBounds(0, 500 , 800, 100);
+    controlPanel.setBounds(0, 980 , 1920, 100);
+    controlPanel.setLayout(null);
+    controlPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+    startButton = new JButton();
+    startButton.setText("Start");
+    startButton.setBackground(new Color(9, 222, 12));
+    startButton.setBounds(200, 20, 80, 30);
+
+    pauseButton = new JButton();
+    pauseButton.setText("Pause");
+    pauseButton.setBackground(new Color(255, 48, 48));
+    pauseButton.setVisible(false);
+    pauseButton.setBounds(200, 20, 80, 30);
+
+    speedLabel = new JLabel();
+    speedLabel.setText("Speed:");
+    speedLabel.setBackground(new Color(9, 232, 91));
+    speedLabel.setBorder(BorderFactory.createBevelBorder(0));
+    speedLabel.setOpaque(true);
+    speedLabel.setBounds(900, 20, 60, 30);
+    controlPanel.add(speedLabel);
+
+    speedInput = new JTextField();
+    speedInput.setBounds(960, 20, 70, 30);
+    controlPanel.add(speedInput);
+
+    quitButton = new JButton();
+    quitButton.setText("Quit");
+    quitButton.setBackground(new Color(255, 48, 48));
+    quitButton.setBounds(1720, 20, 80, 30);
+
+    controlPanel.add(startButton);
+    controlPanel.add(pauseButton);
+    controlPanel.add(quitButton);
+
+
+    buttonhandler myButtons = new buttonhandler();
+    startButton.addActionListener(myButtons);
+    pauseButton.addActionListener(myButtons);
+    quitButton.addActionListener(myButtons);
+
     //250, 206, 130
 
     add(titlePanel);
+    add(movePanel);
     add(controlPanel);
-  }
-}
+  }// end of constructor
+  private class buttonhandler implements ActionListener
+  {
+    public void actionPerformed(ActionEvent event)
+    {
+      if(event.getSource() == startButton)
+      {
+        //start();
+        startButton.setVisible(false); //replaces startButton with pauseButton
+        pauseButton.setVisible(true);
+      }
+      else if (event.getSource() == pauseButton)
+      {
+        startButton.setVisible(true); //replaces pauseButton with startButton
+        pauseButton.setVisible(false);
+      }
+      else if(event.getSource() == quitButton)
+      {
+        System.exit(0);
+      }// implements the quit button
+      else
+      {
+        System.out.println("Button error");
+      }
+    }
+  }//end of button class
+}//end of class

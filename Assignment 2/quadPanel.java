@@ -33,21 +33,75 @@
   //This is the top level module.  This module activates the user interface.
 
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.geom.Line2D;
+import java.awt.*;
+import javax.swing.*;
+import java.awt.geom.*;
 
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
-import javax.swing.JPanel;
 
 public class quadPanel extends JPanel
 {
-  final int maxHeight = 800;
-  final int maxWidth = 800;
+  private Position northBase;
+  private Position westBase;
+  private Position eastBase;
+  private Position southBase;
+  public  Position runner;
 
-  quadPanel(){
+  public quadPanel()
+  {
+    northBase = new Position(960, 30);
+    westBase = new Position(100, 440);
+    eastBase = new Position(1820, 440);
+    southBase = new Position(960, 850);
+    runner = new Position(southBase.getX(), southBase.getY());
+    setBounds(0, 100, 1920, 880);
+    setBackground(new Color(159, 255, 148));
+    setBorder(BorderFactory.createLineBorder(Color.BLACK));
+    //(x,y) N(250, 150) E(450, 200) S(250, 450) W(50, 200)
 
   }
+  public void paint(Graphics lines)
+  {
+    Graphics2D bases = (Graphics2D) lines;
+    bases.setColor(new Color(159, 255, 148));
+    bases.fillRect(0, 0, 1920, 880);
 
+    bases.setPaint(new Color(230, 230, 230));
+    bases.setStroke(new BasicStroke(6));
+    bases.drawLine(southBase.getX(), southBase.getY(), eastBase.getX(), eastBase.getY()); //south to east
+    bases.drawLine(eastBase.getX(), eastBase.getY(), northBase.getX(), northBase.getY()); //east to north
+    bases.drawLine(northBase.getX(), northBase.getY(), westBase.getX(), westBase.getY()); //north to west
+    bases.drawLine(westBase.getX(), westBase.getY(), southBase.getX(), southBase.getY()); //west to south
+
+  }
+  // public void updateRunner(Postion nextPos) {
+  //
+  // }
+
+}
+class Position
+{
+    private int x;
+    private int y;
+
+    public Position(int x, int y)
+    {
+      this.x = x;
+      this.y = y;
+    }
+    public int getX()
+    {
+      return x;
+    }
+    public int getY()
+    {
+      return y;
+    }
+    public void setX(int x)
+    {
+      this.x = x;
+    }
+    public void setY(int y)
+    {
+      this.y = y;
+    }
 }

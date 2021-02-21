@@ -39,7 +39,7 @@ public class main
   {
     gui myframe = new gui();
     myframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    myframe.setSize(500,600);
+    myframe.setSize(1920,1080);
     myframe.setResizable(false);
     myframe.setVisible(true);
   }//End of main

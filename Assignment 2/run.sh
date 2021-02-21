@@ -19,6 +19,9 @@ ls -l *.java
 echo Compile math.java
 javac math.java
 
+echo Compile quadPanel.java
+javac quadPanel.java
+
 echo Compile gui.java
 javac gui.java
 
