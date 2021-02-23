@@ -37,17 +37,20 @@ import javax.swing.*;
 import java.awt.event.*;
 
 
-public class gui extends JFrame {
-
-private JPanel titlePanel;
-private JLabel titleLabel;
-private quadPanel movePanel;
-private JPanel controlPanel;
-private JLabel speedLabel;
-private JTextField speedInput;
-private JButton startButton;
-private JButton pauseButton;
-private JButton quitButton;
+public class gui extends JFrame
+{
+  ////TITLE PANELS OBJECTS////
+  private JPanel titlePanel;
+  private JLabel titleLabel;
+  ////ANIAMTION OBJECTS////
+  private quadPanel movePanel;
+  ////CONTROL PANELS OBJECTS////
+  private JPanel controlPanel;
+  private JLabel speedLabel;
+  private JTextField speedInput;
+  private JButton startButton;
+  private JButton pauseButton;
+  private JButton quitButton;
 
   public gui() //constructor
   {//setting the dimensions and layout for the frame

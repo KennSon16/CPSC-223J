@@ -45,6 +45,23 @@ public class quadPanel extends JPanel
   private Position eastBase;
   private Position southBase;
   public  Position runner;
+  private final double ballRadius = 7.0;
+  private final double ballDiameter = 2.0 * ballRadius;
+  private double deltaX;
+  private double deltaY;
+  private double ballCenterX;
+  private double ballCenterY;
+  private double ballUpperCornerX;
+  private double ballUpperCornerY;
+  private double distanceBetween;
+  private double distanceMovedInOneTick;
+  private Position ballUpperCornerPos;
+  private boolean showField = false;
+  private boolean successfulMove = true;
+  private boolean fullLoop = false;
+  private Position[] orderOfBases;
+  private int i = 0;
+
 
   public quadPanel()
   {
@@ -53,6 +70,11 @@ public class quadPanel extends JPanel
     eastBase = new Position(1820, 440);
     southBase = new Position(960, 850);
     runner = new Position(southBase.getX(), southBase.getY());
+    orderOfBases = new Position[4];
+    orderOfBases[0] = southBase;
+    orderOfBases[1] = eastBase;
+    orderOfBases[2] = northBase;
+    orderOfBases[3] = westBase;
     setBounds(0, 100, 1920, 880);
     setBackground(new Color(159, 255, 148));
     setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -72,10 +94,70 @@ public class quadPanel extends JPanel
     bases.drawLine(northBase.getX(), northBase.getY(), westBase.getX(), westBase.getY()); //north to west
     bases.drawLine(westBase.getX(), westBase.getY(), southBase.getX(), southBase.getY()); //west to south
 
+    if (showField)
+    {
+      bases.setColor(new Color(255, 43, 110));
+      bases.drawOval(ballUpperCornerPos.getX(), ballUpperCornerPos.getY(), (int)Math.round(ballDiameter),(int)Math.round(ballDiameter));
+    }
   }
-  // public void updateRunner(Postion nextPos) {
-  //
-  // }
+  public void initializeRunner(double deltaX, double deltaY)
+  {
+    showField = true;
+    this.deltaX = deltaX;
+    this.deltaY = deltaY;
+    ballCenterX = southBase.getX();
+    ballCenterY = southBase.getY();
+    i = 0;
+
+    ballUpperCornerX = ballCenterX - ballRadius;
+    ballUpperCornerY = ballCenterY - ballRadius;
+    ballUpperCornerPos = new Position((int)Math.round(ballUpperCornerX), (int)Math.round(ballUpperCornerY));
+
+    distanceMovedInOneTick = Math.sqrt(deltaX*deltaX + deltaY*deltaY);
+    distanceBetween
+      = Math.sqrt(Math.pow(ballCenterX - orderOfBases[getNextIndex()].getX(),2) + Math.pow(ballCenterY - orderOfBases[getNextIndex()].getY(), 2));
+  }
+
+  public boolean updateRunner()
+  {    successfulMove = true;
+      if(distanceBetween > distanceMovedInOneTick)
+      {//This is the case where the destination is further away than a single step can accomplish.
+          ballCenterX += deltaX;
+          ballCenterY += deltaY;
+      }
+      else
+           {//This is the case where the ball needs exactly one short hop to reach its destination.
+            ballCenterX = orderOfBases[getNextIndex()].getX();
+            ballCenterX = orderOfBases[getNextIndex()].getY();
+            successfulMove = false;
+           }
+      ballUpperCornerX = ballCenterX - ballRadius;
+      ballUpperCornerY = ballCenterY - ballRadius;
+      ballUpperCornerPos.setX((int)Math.round(ballUpperCornerX));
+      ballUpperCornerPos.setY((int)Math.round(ballUpperCornerY));
+      distanceBetween
+        = Math.sqrt(Math.pow(ballCenterX - orderOfBases[getNextIndex()].getX(),2) + Math.pow(ballCenterY - orderOfBases[getNextIndex()].getY(), 2));
+      //System.out.println("Coordinates of the center of the ball are ("+ballCenterX+', '+ballCenterY+')');  //Debug
+      return successfulMove;
+  }//End of updateRunner
+  public void smartCounter()
+  {
+    this.i++;
+    if (this.i >= 4)
+    {
+      fullLoop = true;
+      this.i = 0;
+    }
+  }
+  public int getNextIndex()
+  {
+    int num = this.i + 1;
+    if (num > 4)
+    {
+      return 0;
+    }
+    return num;
+  }
 
 }
 class Position
