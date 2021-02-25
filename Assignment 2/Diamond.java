@@ -18,7 +18,7 @@
 //Program information:
   //Program name: Baseball Runner
   //Programming language: Java
-  //Files: main.java, gui.java, math.java, run.sh
+  //Files: Diamond.java, BaseballUI.java, Computations.java, Quad.java, run.sh
   //Date project began: 2021-February-8.
   //Date of last update: 2021-February-8.
   //Status: Creating the gui.
@@ -28,19 +28,19 @@
   //Base test system: Linux system with Bash shell and openjdk-14-jdk
 
 //This module
-  //File name: main.java
-  //Compile : javac main.java
+  //File name: Diamond.java
+  //Compile : javac Diamond.java
   //This is the top level module.  This module activates the user interface.
 
 import javax.swing.JFrame;
-public class main
+public class Diamond
 {
   public static void main(String[] args)
   {
-    gui myframe = new gui();
+    BaseballUI myframe = new BaseballUI();
     myframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     myframe.setSize(1920,1080);
     myframe.setResizable(false);
     myframe.setVisible(true);
-  }//End of main
-}//End of class main
+  }//End of Diamond
+}//End of class Diamond

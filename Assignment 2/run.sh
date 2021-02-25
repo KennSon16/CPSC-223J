@@ -16,19 +16,19 @@ rm *.class
 echo View list of source files
 ls -l *.java
 
-echo Compile math.java
-javac math.java
+echo Compile Computations.java
+javac Computations.java
 
-echo Compile quadPanel.java
-javac quadPanel.java
+echo Compile Quad.java
+javac Quad.java
 
-echo Compile gui.java
-javac gui.java
+echo Compile BaseballUI.java
+javac BaseballUI.java
 
-echo Compile main.java
-javac main.java
+echo Compile Diamond.java
+javac Diamond.java
 
 echo Execute the Baseball Runner program
-java main.java
+java Diamond.java
 
 echo End of execution.  Have a nice day.

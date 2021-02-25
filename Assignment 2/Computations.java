@@ -18,7 +18,7 @@
 //Program information:
   //Program name: Baseball Runner
   //Programming language: Java
-  //Files: main.java, gui.java, math.java, quadPanel.java, run.sh
+  //Files: Diamond.java, BaseballUI.java, Computations.java, Quad.java, run.sh
   //Date project began: 2021-February-8.
   //Date of last update: 2021-February-8.
   //Status: Creating the gui.
@@ -28,6 +28,27 @@
   //Base test system: Linux system with Bash shell and openjdk-14-jdk
 
 //This module
-  //File name: math.java
-  //Compile : javac math.java
+  //File name: Computations.java
+  //Compile : javac Computations.java
   //This is the top level module.  This module activates the user interface.
+public class Computations
+{
+  double lengthOfLine, speed, x1, x2, y1, y2;
+  public Computations(double x1, double x2, double y1, double y2, double speed)
+  {
+    lengthOfLine = Math.sqrt(Math.pow((x2-x1),2) + Math.pow((y2-y1),2));
+    this.x1 = x1;
+    this.x2 = x2;
+    this.y1 = y1;
+    this.y2 = y2;
+    this.speed = speed;
+  }
+  public double getDeltaY()
+  {
+    return speed*(y2 - y1)/lengthOfLine;
+  }
+  public double getDeltaX()
+  {
+    return speed*(x2 - x1)/lengthOfLine;
+  }
+}

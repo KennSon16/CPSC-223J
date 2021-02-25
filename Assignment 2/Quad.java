@@ -18,7 +18,7 @@
 //Program information:
   //Program name: Baseball Runner
   //Programming language: Java
-  //Files: main.java, gui.java, math.java, quadPanel.java, run.sh
+  //Files: Diamond.java, BaseballUI.java, Computations.java, Quad.java, run.sh
   //Date project began: 2021-February-8.
   //Date of last update: 2021-February-8.
   //Status: Creating the gui.
@@ -28,8 +28,8 @@
   //Base test system: Linux system with Bash shell and openjdk-14-jdk
 
 //This module
-  //File name: quadPanel.java
-  //Compile : javac quadPanel.java
+  //File name: Quad.java
+  //Compile : javac Quad.java
   //This is the top level module.  This module activates the user interface.
 
 
@@ -38,13 +38,16 @@ import javax.swing.*;
 import java.awt.geom.*;
 
 
-public class quadPanel extends JPanel
+public class Quad extends JPanel
 {
+  /// BASES ///
   private Position northBase;
   private Position westBase;
   private Position eastBase;
   private Position southBase;
-  public  Position runner;
+  public  Position[] orderOfBases;
+  private int i = 0;
+  /// BALL ///
   private final double ballRadius = 7.0;
   private final double ballDiameter = 2.0 * ballRadius;
   private double deltaX;
@@ -59,17 +62,14 @@ public class quadPanel extends JPanel
   private boolean showField = false;
   private boolean successfulMove = true;
   private boolean fullLoop = false;
-  private Position[] orderOfBases;
-  private int i = 0;
 
 
-  public quadPanel()
+  public Quad()
   {
     northBase = new Position(960, 30);
     westBase = new Position(100, 440);
     eastBase = new Position(1820, 440);
     southBase = new Position(960, 850);
-    runner = new Position(southBase.getX(), southBase.getY());
     orderOfBases = new Position[4];
     orderOfBases[0] = southBase;
     orderOfBases[1] = eastBase;
@@ -103,6 +103,7 @@ public class quadPanel extends JPanel
   public void initializeRunner(double deltaX, double deltaY)
   {
     showField = true;
+    fullLoop = false;
     this.deltaX = deltaX;
     this.deltaY = deltaY;
     ballCenterX = southBase.getX();
@@ -122,15 +123,24 @@ public class quadPanel extends JPanel
   {    successfulMove = true;
       if(distanceBetween > distanceMovedInOneTick)
       {//This is the case where the destination is further away than a single step can accomplish.
-          ballCenterX += deltaX;
-          ballCenterY += deltaY;
+        ballCenterX += deltaX;
+        ballCenterY += deltaY;
       }
       else
-           {//This is the case where the ball needs exactly one short hop to reach its destination.
-            ballCenterX = orderOfBases[getNextIndex()].getX();
-            ballCenterX = orderOfBases[getNextIndex()].getY();
-            successfulMove = false;
-           }
+      {//This is the case where the ball needs exactly one short hop to reach its destination.
+        ballCenterX = orderOfBases[getNextIndex()].getX();
+        ballCenterX = orderOfBases[getNextIndex()].getY();
+        if(fullLoop)
+        {
+          successfulMove = false;
+        }
+        else
+        {
+          successfulMove = false;
+          smartCounter();
+        }
+
+      }
       ballUpperCornerX = ballCenterX - ballRadius;
       ballUpperCornerY = ballCenterY - ballRadius;
       ballUpperCornerPos.setX((int)Math.round(ballUpperCornerX));
@@ -158,8 +168,18 @@ public class quadPanel extends JPanel
     }
     return num;
   }
+  public void updateDelta(double deltaX, double deltaY)
+  {
+    this.deltaX = deltaX;
+    this.deltaY = deltaY;
+  }
+  public boolean isFullLoop()
+  {
+    boolean temp = fullLoop;
+    return temp;
+  }
 
-}
+}//End of class Quad
 class Position
 {
     private int x;

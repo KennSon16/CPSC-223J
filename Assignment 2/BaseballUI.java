@@ -18,7 +18,7 @@
 //Program information:
   //Program name: Baseball Runner
   //Programming language: Java
-  //Files: main.java, gui.java, math.java, run.sh
+  //Files: Diamond.java, BaseballUI.java, Computations.java, Quad.java run.sh
   //Date project began: 2021-February-8.
   //Date of last update: 2021-February-8.
   //Status: Creating the gui.
@@ -28,8 +28,8 @@
   //Base test system: Linux system with Bash shell and openjdk-14-jdk
 
 //This module
-  //File name: gui.java
-  //Compile : javac gui.java
+  //File name: BaseballUI.java
+  //Compile : javac BaseballUI.java
   //This is the top level module.  This module activates the user interface.
 
 import java.awt.*;
@@ -37,13 +37,13 @@ import javax.swing.*;
 import java.awt.event.*;
 
 
-public class gui extends JFrame
+public class BaseballUI extends JFrame
 {
   ////TITLE PANELS OBJECTS////
   private JPanel titlePanel;
   private JLabel titleLabel;
   ////ANIAMTION OBJECTS////
-  private quadPanel movePanel;
+  private Quad movePanel;
   ////CONTROL PANELS OBJECTS////
   private JPanel controlPanel;
   private JLabel speedLabel;
@@ -51,8 +51,13 @@ public class gui extends JFrame
   private JButton startButton;
   private JButton pauseButton;
   private JButton quitButton;
+  ////RUNNER SPEED THINGS ////
+  private Clockhandlerclass clockhandler;
+  private double speed;
+  private Timer refreshclock;
+  private Timer motionclock;
 
-  public gui() //constructor
+  public BaseballUI() //constructor
   {//setting the dimensions and layout for the frame
     super("Program 2");
     setLocationRelativeTo(null);
@@ -69,7 +74,7 @@ public class gui extends JFrame
 
     //********ANIMATION PANEL********//
     //128, 235, 52 RGB color looks like grass!
-    movePanel = new quadPanel();
+    movePanel = new Quad();
 
     //**********MARCO PANEL**********//
     controlPanel = new JPanel();
@@ -111,11 +116,15 @@ public class gui extends JFrame
     controlPanel.add(quitButton);
 
 
+
+
+
     buttonhandler myButtons = new buttonhandler();
     startButton.addActionListener(myButtons);
     pauseButton.addActionListener(myButtons);
     quitButton.addActionListener(myButtons);
 
+    clockhandler = new Clockhandlerclass();
     //250, 206, 130
 
     add(titlePanel);
@@ -124,18 +133,35 @@ public class gui extends JFrame
   }// end of constructor
   private class buttonhandler implements ActionListener
   {
+    boolean active;
+    Computations toBase1;
     public void actionPerformed(ActionEvent event)
     {
       if(event.getSource() == startButton)
       {
         //start();
+        active = true;
+        refreshclock.start();
+        motionclock.start();
         startButton.setVisible(false); //replaces startButton with pauseButton
         pauseButton.setVisible(true);
       }
-      else if (event.getSource() == pauseButton)
+      else if(event.getSource() == pauseButton)
       {
-        startButton.setVisible(true); //replaces pauseButton with startButton
-        pauseButton.setVisible(false);
+        if(active)
+        {
+          refreshclock.stop();
+          motionclock.stop();
+          startButton.setVisible(true); //replaces pauseButton with startButton
+          pauseButton.setVisible(false);
+          active = false;
+        }
+        else
+        {
+          refreshclock.start();
+          motionclock.start();
+          active = true;
+        }
       }
       else if(event.getSource() == quitButton)
       {
@@ -147,4 +173,67 @@ public class gui extends JFrame
       }
     }
   }//end of button class
+
+  private class Clockhandlerclass implements ActionListener
+  {
+    //boolean base1 = false;
+    boolean base2 = false;
+    boolean base3 = false;
+    boolean home  = false;
+    //Computations toBase1;
+    Computations toBase2;
+    Computations toBase3;
+    Computations toHomeBase;
+    public void actionPerformed(ActionEvent event)
+    {
+      boolean animation_continues = false;
+      if(event.getSource() == refreshclock)
+      {
+        movePanel.repaint();
+      }
+      else if(event.getSource() == motionclock)
+      {
+        animation_continues = movePanel.updateRunner();
+        if(!animation_continues && !movePanel.isFullLoop())
+        {
+          if(!base2)
+          {
+            toBase2 = new Computations(movePanel.orderOfBases[1].getX(), movePanel.orderOfBases[movePanel.getNextIndex()].getX(),
+                                        movePanel.orderOfBases[1].getY(), movePanel.orderOfBases[movePanel.getNextIndex()].getY(), speed);
+            movePanel.updateDelta(toBase2.getDeltaX(), toBase2.getDeltaY());
+            base2 = true;
+          }
+          else if(!base3)
+          {
+            toBase3 = new Computations(movePanel.orderOfBases[2].getX(), movePanel.orderOfBases[movePanel.getNextIndex()].getX(),
+                                        movePanel.orderOfBases[2].getY(), movePanel.orderOfBases[movePanel.getNextIndex()].getY(), speed);
+            movePanel.updateDelta(toBase3.getDeltaX(), toBase3.getDeltaY());
+            base3 = true;
+          }
+          else if(!home)
+          {
+            toHomeBase = new Computations(movePanel.orderOfBases[3].getX(), movePanel.orderOfBases[movePanel.getNextIndex()].getX(),
+                                        movePanel.orderOfBases[3].getY(), movePanel.orderOfBases[movePanel.getNextIndex()].getY(), speed);
+            movePanel.updateDelta(toHomeBase.getDeltaX(), toHomeBase.getDeltaY());
+            home = true;
+          }
+        }
+        //coordinates_of_center_of_ball.setText("(" + special_edition.format(u) + " , " +  special_edition.format(v) + ")");
+        else if(!animation_continues && home)
+        {
+          motionclock.stop();
+          refreshclock.stop();
+          base2 = false;
+          base3 = false;
+          home  = false;
+        }
+        else
+        {
+          System.out.println("Error with bases");
+        }
+      }//End of if(event.getSource() == motionclock)
+      else
+         System.out.printf("%s\n","There is a bug in one of the clocks.");
+     }//End of method actionPerformed
+  }//End of Clockhandlerclass
 }//end of class
