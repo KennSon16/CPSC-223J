@@ -145,7 +145,7 @@ public class BaseballUI extends JFrame
       if(event.getSource() == startButton)
       {
         speed = (Double.valueOf(speedInput.getText()));
-          refreshclock = new Timer((int)Math.round(1000/120.47), clockhandler);
+          refreshclock = new Timer((int)Math.round(1000/80.47), clockhandler);
           motionclock = new Timer(((int)Math.round(1000/speed)), clockhandler);
         movePanel.setSpeed(speed);
         active = true;
@@ -238,8 +238,11 @@ public class BaseballUI extends JFrame
             movePanel.updateDelta(toHomeBase.getDeltaX(), toHomeBase.getDeltaY());
             //refreshclock.start();
             //motionclock.start();
-            movePanel.toggleFullLoop();
             home = true;
+          }
+          else if(home)
+          {
+            movePanel.toggleFullLoop();
           }
         }
         //coordinates_of_center_of_ball.setText("(" + special_edition.format(u) + " , " +  special_edition.format(v) + ")");
@@ -252,8 +255,8 @@ public class BaseballUI extends JFrame
           base2 = false;
           base3 = false;
           home  = false;
-          movePanel.initializeRunner();
-          movePanel.repaint();
+          //movePanel.initializeRunner();
+          //movePanel.repaint();
           movePanel.updateDelta(toBase1.getDeltaX(), toBase1.getDeltaY());
           startButton.setVisible(true); //replaces pauseButton with startButton
           pauseButton.setVisible(false);

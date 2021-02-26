@@ -99,6 +99,8 @@ public class Quad extends JPanel
     {
       bases.setColor(new Color(255, 43, 110));
       bases.drawOval(ballUpperCornerPos.getX(), ballUpperCornerPos.getY(), (int)Math.round(ballDiameter),(int)Math.round(ballDiameter));
+      bases.fillOval(ballUpperCornerPos.getX(), ballUpperCornerPos.getY(),
+                          (int)Math.round(ballDiameter),(int)Math.round(ballDiameter));
     }
   }
   public void initializeRunner()
@@ -133,7 +135,7 @@ public class Quad extends JPanel
     {//This is the case where the ball needs exactly one short hop to reach its destination.
       ballCenterX = orderOfBases[getNextIndex()].getX();
       ballCenterY = orderOfBases[getNextIndex()].getY();
-      // System.out.println("x:" + ballCenterX + ", y:" + ballCenterY);
+      System.out.println("x:" + ballCenterX + ", y:" + ballCenterY);
       // System.out.println("yeet");
       successfulMove = false;
     }
