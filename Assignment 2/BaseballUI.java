@@ -56,6 +56,7 @@ public class BaseballUI extends JFrame
   private double speed;
   private Timer refreshclock;
   private Timer motionclock;
+  private Computations toBase1;
 
   public BaseballUI() //constructor
   {//setting the dimensions and layout for the frame
@@ -116,9 +117,6 @@ public class BaseballUI extends JFrame
     controlPanel.add(quitButton);
 
 
-
-
-
     buttonhandler myButtons = new buttonhandler();
     startButton.addActionListener(myButtons);
     pauseButton.addActionListener(myButtons);
@@ -130,6 +128,13 @@ public class BaseballUI extends JFrame
     add(titlePanel);
     add(movePanel);
     add(controlPanel);
+
+    movePanel.initializeRunner();
+
+    toBase1 = new Computations(movePanel.orderOfBases[0].getX(), movePanel.orderOfBases[1].getX(),
+                                movePanel.orderOfBases[0].getY(), movePanel.orderOfBases[1].getY());
+    movePanel.updateDelta(toBase1.getDeltaX(), toBase1.getDeltaY());
+
   }// end of constructor
   private class buttonhandler implements ActionListener
   {
@@ -139,7 +144,10 @@ public class BaseballUI extends JFrame
     {
       if(event.getSource() == startButton)
       {
-        //start();
+        speed = (Double.valueOf(speedInput.getText()));
+          refreshclock = new Timer((int)Math.round(1000/120.47), clockhandler);
+          motionclock = new Timer(((int)Math.round(1000/speed)), clockhandler);
+        movePanel.setSpeed(speed);
         active = true;
         refreshclock.start();
         motionclock.start();
@@ -198,23 +206,39 @@ public class BaseballUI extends JFrame
         {
           if(!base2)
           {
-            toBase2 = new Computations(movePanel.orderOfBases[1].getX(), movePanel.orderOfBases[movePanel.getNextIndex()].getX(),
-                                        movePanel.orderOfBases[1].getY(), movePanel.orderOfBases[movePanel.getNextIndex()].getY(), speed);
+            //refreshclock.stop();
+            //motionclock.stop();
+            toBase2 = new Computations(movePanel.orderOfBases[1].getX(), movePanel.orderOfBases[2].getX(),
+                                        movePanel.orderOfBases[1].getY(), movePanel.orderOfBases[2].getY());
+            movePanel.smartCounter();
             movePanel.updateDelta(toBase2.getDeltaX(), toBase2.getDeltaY());
+            //refreshclock.start();
+            //motionclock.start();
             base2 = true;
           }
           else if(!base3)
           {
-            toBase3 = new Computations(movePanel.orderOfBases[2].getX(), movePanel.orderOfBases[movePanel.getNextIndex()].getX(),
-                                        movePanel.orderOfBases[2].getY(), movePanel.orderOfBases[movePanel.getNextIndex()].getY(), speed);
+            //refreshclock.stop();
+            //motionclock.stop();
+            toBase3 = new Computations(movePanel.orderOfBases[2].getX(), movePanel.orderOfBases[3].getX(),
+                                        movePanel.orderOfBases[2].getY(), movePanel.orderOfBases[3].getY());
+            movePanel.smartCounter();
             movePanel.updateDelta(toBase3.getDeltaX(), toBase3.getDeltaY());
+            //refreshclock.start();
+            //motionclock.start();
             base3 = true;
           }
           else if(!home)
           {
-            toHomeBase = new Computations(movePanel.orderOfBases[3].getX(), movePanel.orderOfBases[movePanel.getNextIndex()].getX(),
-                                        movePanel.orderOfBases[3].getY(), movePanel.orderOfBases[movePanel.getNextIndex()].getY(), speed);
+            //refreshclock.stop();
+            //motionclock.stop();
+            toHomeBase = new Computations(movePanel.orderOfBases[3].getX(), movePanel.orderOfBases[0].getX(),
+                                          movePanel.orderOfBases[3].getY(), movePanel.orderOfBases[0].getY());
+            movePanel.smartCounter();
             movePanel.updateDelta(toHomeBase.getDeltaX(), toHomeBase.getDeltaY());
+            //refreshclock.start();
+            //motionclock.start();
+            movePanel.toggleFullLoop();
             home = true;
           }
         }
@@ -223,14 +247,21 @@ public class BaseballUI extends JFrame
         {
           motionclock.stop();
           refreshclock.stop();
+          movePanel.smartCounter();
+          movePanel.toggleFullLoop();
           base2 = false;
           base3 = false;
           home  = false;
+          movePanel.initializeRunner();
+          movePanel.repaint();
+          movePanel.updateDelta(toBase1.getDeltaX(), toBase1.getDeltaY());
+          startButton.setVisible(true); //replaces pauseButton with startButton
+          pauseButton.setVisible(false);
         }
-        else
-        {
-          System.out.println("Error with bases");
-        }
+        // else
+        // {
+        //   System.out.println("Error with bases");
+        // }
       }//End of if(event.getSource() == motionclock)
       else
          System.out.printf("%s\n","There is a bug in one of the clocks.");

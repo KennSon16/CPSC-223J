@@ -34,21 +34,20 @@
 public class Computations
 {
   double lengthOfLine, speed, x1, x2, y1, y2;
-  public Computations(double x1, double x2, double y1, double y2, double speed)
+  public Computations(double x1, double x2, double y1, double y2)
   {
     lengthOfLine = Math.sqrt(Math.pow((x2-x1),2) + Math.pow((y2-y1),2));
     this.x1 = x1;
     this.x2 = x2;
     this.y1 = y1;
     this.y2 = y2;
-    this.speed = speed;
   }
   public double getDeltaY()
   {
-    return speed*(y2 - y1)/lengthOfLine;
+    return (y2 - y1)/lengthOfLine;
   }
   public double getDeltaX()
   {
-    return speed*(x2 - x1)/lengthOfLine;
+    return (x2 - x1)/lengthOfLine;
   }
 }

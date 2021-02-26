@@ -62,6 +62,7 @@ public class Quad extends JPanel
   private boolean showField = false;
   private boolean successfulMove = true;
   private boolean fullLoop = false;
+  private double speed;
 
 
   public Quad()
@@ -100,12 +101,12 @@ public class Quad extends JPanel
       bases.drawOval(ballUpperCornerPos.getX(), ballUpperCornerPos.getY(), (int)Math.round(ballDiameter),(int)Math.round(ballDiameter));
     }
   }
-  public void initializeRunner(double deltaX, double deltaY)
+  public void initializeRunner()
   {
     showField = true;
     fullLoop = false;
-    this.deltaX = deltaX;
-    this.deltaY = deltaY;
+    //this.deltaX = deltaX;
+    //this.deltaY = deltaY;
     ballCenterX = southBase.getX();
     ballCenterY = southBase.getY();
     i = 0;
@@ -114,55 +115,52 @@ public class Quad extends JPanel
     ballUpperCornerY = ballCenterY - ballRadius;
     ballUpperCornerPos = new Position((int)Math.round(ballUpperCornerX), (int)Math.round(ballUpperCornerY));
 
-    distanceMovedInOneTick = Math.sqrt(deltaX*deltaX + deltaY*deltaY);
+    // distanceMovedInOneTick = Math.sqrt(deltaX*deltaX + deltaY*deltaY);
     distanceBetween
       = Math.sqrt(Math.pow(ballCenterX - orderOfBases[getNextIndex()].getX(),2) + Math.pow(ballCenterY - orderOfBases[getNextIndex()].getY(), 2));
   }
 
   public boolean updateRunner()
-  {    successfulMove = true;
-      if(distanceBetween > distanceMovedInOneTick)
-      {//This is the case where the destination is further away than a single step can accomplish.
-        ballCenterX += deltaX;
-        ballCenterY += deltaY;
-      }
-      else
-      {//This is the case where the ball needs exactly one short hop to reach its destination.
-        ballCenterX = orderOfBases[getNextIndex()].getX();
-        ballCenterX = orderOfBases[getNextIndex()].getY();
-        if(fullLoop)
-        {
-          successfulMove = false;
-        }
-        else
-        {
-          successfulMove = false;
-          smartCounter();
-        }
-
-      }
-      ballUpperCornerX = ballCenterX - ballRadius;
-      ballUpperCornerY = ballCenterY - ballRadius;
-      ballUpperCornerPos.setX((int)Math.round(ballUpperCornerX));
-      ballUpperCornerPos.setY((int)Math.round(ballUpperCornerY));
-      distanceBetween
+  {
+    successfulMove = true;
+    if(distanceBetween > speed*distanceMovedInOneTick)
+    {//This is the case where the destination is further away than a single step can accomplish.
+      ballCenterX += speed*deltaX;
+      ballCenterY += speed*deltaY;
+      // System.out.println("x:" + ballCenterX + ", y:" + ballCenterY);
+    }
+    else
+    {//This is the case where the ball needs exactly one short hop to reach its destination.
+      ballCenterX = orderOfBases[getNextIndex()].getX();
+      ballCenterY = orderOfBases[getNextIndex()].getY();
+      // System.out.println("x:" + ballCenterX + ", y:" + ballCenterY);
+      // System.out.println("yeet");
+      successfulMove = false;
+    }
+    ballUpperCornerX = ballCenterX - ballRadius;
+    ballUpperCornerY = ballCenterY - ballRadius;
+    ballUpperCornerPos.setX((int)Math.round(ballUpperCornerX));
+    ballUpperCornerPos.setY((int)Math.round(ballUpperCornerY));
+    distanceBetween
         = Math.sqrt(Math.pow(ballCenterX - orderOfBases[getNextIndex()].getX(),2) + Math.pow(ballCenterY - orderOfBases[getNextIndex()].getY(), 2));
+
+    System.out.println(distanceBetween);
       //System.out.println("Coordinates of the center of the ball are ("+ballCenterX+', '+ballCenterY+')');  //Debug
-      return successfulMove;
+    return successfulMove;
   }//End of updateRunner
   public void smartCounter()
   {
     this.i++;
     if (this.i >= 4)
     {
-      fullLoop = true;
+      //fullLoop = true;
       this.i = 0;
     }
   }
   public int getNextIndex()
   {
     int num = this.i + 1;
-    if (num > 4)
+    if (num > 3)
     {
       return 0;
     }
@@ -172,11 +170,32 @@ public class Quad extends JPanel
   {
     this.deltaX = deltaX;
     this.deltaY = deltaY;
+    distanceMovedInOneTick = Math.sqrt(deltaX*deltaX + deltaY*deltaY);
+    System.out.println(deltaX + ", " + deltaY + ", " + distanceMovedInOneTick);
+    distanceBetween
+        = Math.sqrt(Math.pow(ballCenterX - orderOfBases[getNextIndex()].getX(),2) +
+          Math.pow(ballCenterY - orderOfBases[getNextIndex()].getY(), 2));
+
   }
   public boolean isFullLoop()
   {
     boolean temp = fullLoop;
     return temp;
+  }
+  public void toggleFullLoop()
+  {
+    if(fullLoop)
+    {
+      fullLoop = false;
+    }
+    else
+    {
+      fullLoop = true;
+    }
+  }
+  public void setSpeed(double speed)
+  {
+    this.speed = speed;
   }
 
 }//End of class Quad
