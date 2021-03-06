@@ -20,7 +20,7 @@
   //Programming language: Java
   //Files: Diamond.java, BaseballUI.java, Computations.java, Quad.java run.sh
   //Date project began: 2021-February-8.
-  //Date of last update: 2021-February-8.
+  //Date of last update: 2021-February-28.
   //Status: Creating the gui.
   //Purpose: This program shows a simple user-interface that allows the user to input a speed to show a baseball player move from base to base,
   //         shown through an animation. Two buttons are added to start and stop the baseball player.
@@ -51,7 +51,7 @@ public class BaseballUI extends JFrame
   private JButton startButton;
   private JButton pauseButton;
   private JButton quitButton;
-  ////RUNNER SPEED THINGS ////
+  ////RUNNER SPEED OBJECTS////
   private Clockhandlerclass clockhandler;
   private double speed;
   private Timer refreshclock;
@@ -76,6 +76,7 @@ public class BaseballUI extends JFrame
     //********ANIMATION PANEL********//
     //128, 235, 52 RGB color looks like grass!
     movePanel = new Quad();
+    movePanel.initializeRunner();
 
     //**********MARCO PANEL**********//
     controlPanel = new JPanel();
@@ -123,13 +124,10 @@ public class BaseballUI extends JFrame
     quitButton.addActionListener(myButtons);
 
     clockhandler = new Clockhandlerclass();
-    //250, 206, 130
 
     add(titlePanel);
     add(movePanel);
     add(controlPanel);
-
-    movePanel.initializeRunner();
 
     toBase1 = new Computations(movePanel.orderOfBases[0].getX(), movePanel.orderOfBases[1].getX(),
                                 movePanel.orderOfBases[0].getY(), movePanel.orderOfBases[1].getY());
@@ -144,15 +142,29 @@ public class BaseballUI extends JFrame
     {
       if(event.getSource() == startButton)
       {
-        speed = (Double.valueOf(speedInput.getText()));
-          refreshclock = new Timer((int)Math.round(1000/80.47), clockhandler);
+        try
+        {
+          speed = (Double.valueOf(speedInput.getText()));
+          if (speed < 0)
+          {
+            throw new Exception("Speed cannot be negative!");
+          }
+          refreshclock = new Timer((int)Math.round(1000/60.47), clockhandler);
           motionclock = new Timer(((int)Math.round(1000/speed)), clockhandler);
-        movePanel.setSpeed(speed);
-        active = true;
-        refreshclock.start();
-        motionclock.start();
-        startButton.setVisible(false); //replaces startButton with pauseButton
-        pauseButton.setVisible(true);
+          movePanel.setSpeed(speed);
+          active = true;
+          refreshclock.start();
+          motionclock.start();
+          startButton.setVisible(false); //replaces startButton with pauseButton
+          pauseButton.setVisible(true);
+        }
+        catch(Exception e)
+        {
+          if(e instanceof NumberFormatException) {
+            System.out.println("Speed was not defined! Please input the speed.");
+          }
+          System.out.println("Error: " + e);
+        }
       }
       else if(event.getSource() == pauseButton)
       {
@@ -184,11 +196,9 @@ public class BaseballUI extends JFrame
 
   private class Clockhandlerclass implements ActionListener
   {
-    //boolean base1 = false;
     boolean base2 = false;
     boolean base3 = false;
     boolean home  = false;
-    //Computations toBase1;
     Computations toBase2;
     Computations toBase3;
     Computations toHomeBase;
@@ -206,38 +216,26 @@ public class BaseballUI extends JFrame
         {
           if(!base2)
           {
-            //refreshclock.stop();
-            //motionclock.stop();
             toBase2 = new Computations(movePanel.orderOfBases[1].getX(), movePanel.orderOfBases[2].getX(),
                                         movePanel.orderOfBases[1].getY(), movePanel.orderOfBases[2].getY());
             movePanel.smartCounter();
             movePanel.updateDelta(toBase2.getDeltaX(), toBase2.getDeltaY());
-            //refreshclock.start();
-            //motionclock.start();
             base2 = true;
           }
           else if(!base3)
           {
-            //refreshclock.stop();
-            //motionclock.stop();
             toBase3 = new Computations(movePanel.orderOfBases[2].getX(), movePanel.orderOfBases[3].getX(),
                                         movePanel.orderOfBases[2].getY(), movePanel.orderOfBases[3].getY());
             movePanel.smartCounter();
             movePanel.updateDelta(toBase3.getDeltaX(), toBase3.getDeltaY());
-            //refreshclock.start();
-            //motionclock.start();
             base3 = true;
           }
           else if(!home)
           {
-            //refreshclock.stop();
-            //motionclock.stop();
             toHomeBase = new Computations(movePanel.orderOfBases[3].getX(), movePanel.orderOfBases[0].getX(),
                                           movePanel.orderOfBases[3].getY(), movePanel.orderOfBases[0].getY());
             movePanel.smartCounter();
             movePanel.updateDelta(toHomeBase.getDeltaX(), toHomeBase.getDeltaY());
-            //refreshclock.start();
-            //motionclock.start();
             home = true;
           }
           else if(home)
@@ -245,7 +243,6 @@ public class BaseballUI extends JFrame
             movePanel.toggleFullLoop();
           }
         }
-        //coordinates_of_center_of_ball.setText("(" + special_edition.format(u) + " , " +  special_edition.format(v) + ")");
         else if(!animation_continues && home)
         {
           motionclock.stop();
@@ -255,16 +252,12 @@ public class BaseballUI extends JFrame
           base2 = false;
           base3 = false;
           home  = false;
-          //movePanel.initializeRunner();
-          //movePanel.repaint();
+          movePanel.initializeRunner();
+          movePanel.repaint();
           movePanel.updateDelta(toBase1.getDeltaX(), toBase1.getDeltaY());
           startButton.setVisible(true); //replaces pauseButton with startButton
           pauseButton.setVisible(false);
         }
-        // else
-        // {
-        //   System.out.println("Error with bases");
-        // }
       }//End of if(event.getSource() == motionclock)
       else
          System.out.printf("%s\n","There is a bug in one of the clocks.");

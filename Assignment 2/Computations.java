@@ -20,7 +20,7 @@
   //Programming language: Java
   //Files: Diamond.java, BaseballUI.java, Computations.java, Quad.java, run.sh
   //Date project began: 2021-February-8.
-  //Date of last update: 2021-February-8.
+  //Date of last update: 2021-February-28.
   //Status: Creating the gui.
   //Purpose: This program shows a simple user-interface that allows the user to input a speed to show a baseball player move from base to base,
   //         shown through an animation. Two buttons are added to start and stop the baseball player.
