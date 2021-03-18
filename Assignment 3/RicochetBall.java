@@ -1,5 +1,5 @@
 //****************************************************************************************************************************
-//Program name: "Baseball Runner".  This program shows the speed of a baseball runner running to each base with the inputed  *
+//Program name: "Ricochet Ball".  This program shows the speed of a baseball runner running to each base with the inputed  *
 //              speed.                                                                                                       *
 //Copyright (C) 2021 Kenn Son                                                                                                *
 //This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License  *
@@ -16,36 +16,31 @@
   //E-mail: kenneki@csu.fullerton.edu
 
 //Program information:
-  //Program name: Baseball Runner
+  //Program name: RicochetBall
   //Programming language: Java
-  //Files: Diamond.java, BaseballUI.java, Computations.java, Quad.java, run.sh
-  //Date project began: 2021-February-8.
-  //Date of last update: 2021-February-28.
+  //Files: RicochetBall.java, RicochetUI.java, Computations.java, Animation.java, run.sh
+  //Date project began: 2021-March-17.
+  //Date of last update: 2021-March-28.
   //Status: Creating the gui.
-  //Purpose: This program shows a simple user-interface that allows the user to input a speed to show a baseball player move from base to base,
-  //         shown through an animation. Two buttons are added to start and stop the baseball player.
+  //Purpose: This program shows a simple user-interface that allows the user to input a speed to show a ball ricochet from the side of the panel,
+  //         shown through an animation. Two buttons are added to start and stop the ball.
   //Nice feature: If no values are entered into the input boxes then zero is assumed to be the input.
   //Base test system: Linux system with Bash shell and openjdk-14-jdk
 
 //This module
-  //File name: Computations.java
-  //Compile : javac Computations.java
+  //File name: RicochetBall.java
+  //Compile : javac RicochetBall.java
   //This is the top level module.  This module activates the user interface.
-public class Computations
+
+import javax.swing.JFrame;
+public class RicochetBall
 {
-  double dx, dy, radians;
-  public Computations(double direction)
+  public static void main(String[] args)
   {
-    radians = Math.toRadians(direction)
-    this.dx = Math.cos(radians);
-    this.dy = Math.sin(radians);
-  }
-  public double getDeltaY()
-  {
-    return dy;
-  }
-  public double getDeltaX()
-  {
-    return dx;
-  }
-}
+    RicochetUI myframe = new RicochetUI();
+    myframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    myframe.setSize(1920,1080);
+    myframe.setResizable(false);
+    myframe.setVisible(true);
+  }//End of RicochetBall
+}//End of class RicochetBall
