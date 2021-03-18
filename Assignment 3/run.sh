@@ -16,8 +16,8 @@ rm *.class
 echo View list of source files
 ls -l *.java
 
-echo Compile Computations.java
-javac Computations.java
+echo Compile Algorithm.java
+javac Algorithm.java
 
 echo Compile Animation.java
 javac Animation.java

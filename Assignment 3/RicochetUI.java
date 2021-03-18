@@ -18,7 +18,7 @@
 //Program information:
   //Program name: RicochetBall
   //Programming language: Java
-  //Files: RicochetBall.java, RicochetUI.java, Computations.java, Animation.java, run.sh
+  //Files: RicochetBall.java, RicochetUI.java, Algorithm.java, Animation.java, run.sh
   //Date project began: 2021-March-17.
   //Date of last update: 2021-March-28.
   //Status: Creating the gui.
@@ -213,7 +213,7 @@ public class BaseballUI extends JFrame
           pauseButton.setVisible(true);
           active = true;
         }
-      } 
+      }
       else if(event.getSource() == pauseButton)
       {
         if(active)

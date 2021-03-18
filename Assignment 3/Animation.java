@@ -18,7 +18,7 @@
 //Program information:
   //Program name: RicochetBall
   //Programming language: Java
-  //Files: RicochetBall.java, RicochetUI.java, Computations.java, Animation.java, run.sh
+  //Files: RicochetBall.java, RicochetUI.java, Algorithm.java, Animation.java, run.sh
   //Date project began: 2021-March-17.
   //Date of last update: 2021-March-28.
   //Status: Creating the gui.
@@ -40,14 +40,8 @@ import java.awt.geom.*;
 
 public class Quad extends JPanel
 {
-  /// BASES ///
-  private Position northBase;
-  private Position westBase;
-  private Position eastBase;
-  private Position southBase;
-  public  Position[] orderOfBases;
-  private int i = 0;
-  /// BALL/RUNNER ///
+
+  /// BALL ///
   private final double ballRadius = 7.0;
   private final double ballDiameter = 2.0 * ballRadius;
   private double deltaX;

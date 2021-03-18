@@ -150,7 +150,6 @@ public class Quad extends JPanel
   {
     this.i = (this.i + 1)%4;
   }
-
   public int getNextIndex()
   {
     int num = this.i + 1;
