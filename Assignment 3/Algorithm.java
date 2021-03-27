@@ -38,7 +38,7 @@ public class Algorithm
   double dx, dy, radians;
   public Algorithm(double direction)
   {
-    radians = Math.toRadians(direction);
+    radians = Math.toRadians(-direction);
     this.dx = Math.cos(radians);
     this.dy = Math.sin(radians);
   }

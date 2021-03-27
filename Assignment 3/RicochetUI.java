@@ -210,7 +210,7 @@ public class RicochetUI extends JFrame
       {
         try
         {
-          speed = (Double.valueOf(speedInput.getText()));
+          speed = (Double.valueOf(speedInput.getText())/1000)*99.873;
           refreshRate = (Double.valueOf(refreshInput.getText()));
           direction = (Double.valueOf(directionInput.getText()));
           if (speed < 0)
@@ -253,7 +253,7 @@ public class RicochetUI extends JFrame
         {
           try
           {
-            speed = (Double.valueOf(speedInput.getText()));
+            speed = (Double.valueOf(speedInput.getText())/1000)*99.873;
             refreshRate = (Double.valueOf(refreshInput.getText()));
             direction = (Double.valueOf(directionInput.getText()));
             if (speed < 0)
@@ -276,8 +276,8 @@ public class RicochetUI extends JFrame
           {
             math = new Algorithm(direction);
             refreshclock = new Timer((int)Math.round(1000/refreshRate), clockhandler);
-            motionclock = new Timer(((int)Math.round(1000/99.78)), clockhandler);
-            
+            motionclock = new Timer(((int)Math.round(1000/99.873)), clockhandler);
+
             movePanel.setSpeed(speed);
             movePanel.updateDelta(math.getDeltaX(), math.getDeltaY());
             active = true;
@@ -318,6 +318,9 @@ public class RicochetUI extends JFrame
         resumeButton.setVisible(false);
         pauseButton.setVisible(false);
         movePanel.initializeBall();
+        speedInput.setText("");
+        refreshInput.setText("");
+        directionInput.setText("");
         movePanel.repaint();
         xLabel.setText(String.valueOf(movePanel.getCenterX()));
         yLabel.setText(String.valueOf(movePanel.getCenterY()));
