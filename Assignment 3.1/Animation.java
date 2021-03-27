@@ -83,10 +83,27 @@ public class Animation extends JPanel
     ballUpperCornerX = ballCenterX - ballRadius;
     ballUpperCornerY = ballCenterY - ballRadius;
     ballUpperCornerPos = new Position((int)Math.round(ballUpperCornerX), (int)Math.round(ballUpperCornerY));
+
+
   }
 
   public boolean updateBall()
   {
+    // successfulMove = true;
+    // if(distanceBetween > speed*distanceMovedInOneTick)
+    // {//This is the case where the destination is further away than a single step can accomplish.
+    //   ballCenterX += speed*deltaX;
+    //   ballCenterY += speed*deltaY;
+    //   // System.out.println("x:" + ballCenterX + ", y:" + ballCenterY); //Debug
+    // }
+    // else
+    // {//This is the case where the ball needs exactly one short hop to reach its destination.
+    // }
+    // ballUpperCornerX = ballCenterX - ballRadius;
+    // ballUpperCornerY = ballCenterY - ballRadius;
+    // ballUpperCornerPos.setX((int)Math.round(ballUpperCornerX));
+    // ballUpperCornerPos.setY((int)Math.round(ballUpperCornerY));
+
     if ( (ballUpperCornerPos.getY() + speed*deltaY) <= 0)
     {
       if (deltaX == 0)
@@ -145,34 +162,14 @@ public class Animation extends JPanel
     }
     else
     {
-      ballCenterX += deltaX;
-      ballCenterY += deltaY;
+      ballCenterX += speed*deltaX;
+      ballCenterY += speed*deltaY;
     }
     ballUpperCornerX = ballCenterX - ballRadius;
     ballUpperCornerY = ballCenterY - ballRadius;
     ballUpperCornerPos.setX((int)Math.round(ballUpperCornerX));
     ballUpperCornerPos.setY((int)Math.round(ballUpperCornerY));
-
-    return successfulMove;
   }//End of updateRunner
-  public void updateBall2()
-  {
-    ballCenterX += speed*deltaX;
-    ballCenterY += speed*deltaY;
-    if (ballCenterX <= 0 + ballRadius || ballCenterX >= 1920 - ballRadius)
-    {
-      deltaX = deltaX * -1.0;
-    }
-    if (ballCenterY <= 0 + ballRadius || ballCenterY >= 780 - ballRadius)
-    {
-      deltaY = deltaY * -1.0;
-    }
-    ballUpperCornerX = ballCenterX - ballRadius;
-    ballUpperCornerY = ballCenterY - ballRadius;
-    ballUpperCornerPos.setX((int)Math.round(ballUpperCornerX));
-    ballUpperCornerPos.setY((int)Math.round(ballUpperCornerY));
-  }
-
 
   public void updateDelta(double deltaX, double deltaY)
   {
@@ -189,12 +186,12 @@ public class Animation extends JPanel
   {
     return ballCenterX;
   }
-  public double getCenterY()
+  public double getcenterY()
   {
     return ballCenterY;
   }
 
-}//End of class Animation
+}//End of class Quad
 class Position
 {//simple position class to store an obejects coordinates as integers
     private int x;

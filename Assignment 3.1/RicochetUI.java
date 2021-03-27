@@ -65,11 +65,8 @@ public class RicochetUI extends JFrame
   ////RUNNER SPEED OBJECTS////
   private Clockhandlerclass clockhandler;
   private double speed;
-  private double refreshRate;
-  private double direction;
   private Timer refreshclock;
   private Timer motionclock;
-  private Algorithm math;
 
   public RicochetUI() //constructor
   {//setting the dimensions and layout for the frame
@@ -88,8 +85,8 @@ public class RicochetUI extends JFrame
 
     //********ANIMATION PANEL********//
     //128, 235, 52 RGB color looks like grass!
-    movePanel = new Animation();
-    movePanel.initializeBall();
+    //movePanel = new Animation();
+    //movePanel.initializeBall();
 
     //**********MARCO PANEL**********//
     controlPanel = new JPanel();
@@ -100,80 +97,56 @@ public class RicochetUI extends JFrame
 
     clearButton = new JButton();
     clearButton.setText("Clear");
-    clearButton.setBounds(200, 20, 100, 40);
+    clearButton.setBounds(200, 20, 80, 30);
 
     startButton = new JButton();
     startButton.setText("Start");
-    startButton.setBounds(760, 20, 100, 40);
+    startButton.setBounds(400, 20, 80, 30);
 
     resumeButton = new JButton();
     resumeButton.setText("Resume");
     resumeButton.setVisible(false);
-    resumeButton.setBounds(760, 20, 100, 40);
+    resumeButton.setBounds(400, 20, 80, 30);
 
     pauseButton = new JButton();
     pauseButton.setText("Pause");
     pauseButton.setVisible(false);
-    pauseButton.setBounds(760, 20, 100, 40);
+    pauseButton.setBounds(400, 20, 80, 30);
 
     quitButton = new JButton();
     quitButton.setText("Quit");
-    quitButton.setBounds(1320, 20, 100, 40);
+    quitButton.setBounds(1520, 20, 80, 30);
 
     refreshLabel = new JLabel();
     refreshLabel.setText("Refresh Rate (Hz)");
-    refreshLabel.setBackground(new Color(9, 232, 91));
+    //refreshLabel.setBackground(new Color(9, 232, 91));
     refreshLabel.setOpaque(true);
-    refreshLabel.setBounds(175, 80, 150, 20);
+    refreshLabel.setBounds(900, 20, 60, 30);
 
     speedLabel = new JLabel();
     speedLabel.setText("Speed (pix/sec)");
-    speedLabel.setBackground(new Color(9, 232, 91));
+    //speedLabel.setBackground(new Color(9, 232, 91));
     speedLabel.setOpaque(true);
-    speedLabel.setBounds(735, 80, 150, 20);
+    speedLabel.setBounds(900, 20, 60, 30);
 
     directionLabel = new JLabel();
     directionLabel.setText("Direction (pix/sec)");
-    directionLabel.setBackground(new Color(9, 232, 91));
+    //directionLabel.setBackground(new Color(9, 232, 91));
     directionLabel.setOpaque(true);
-    directionLabel.setBounds(1320-25, 80, 150, 20);
+    directionLabel.setBounds(900, 20, 60, 30);
 
-    speedInput = new JTextField();
-    speedInput.setBounds(175, 105, 150, 30);
-    refreshInput = new JTextField();
-    refreshInput.setBounds(735, 105, 150, 30);
-    directionInput = new JTextField();
-    directionInput.setBounds(1295, 105, 150, 30);
-
-    ////// OBJECTS FOR SMALL PANEL ON THE CONROLPANEL ////////
     whereBallPanel = new JPanel();
     whereBallPanel.setBorder(BorderFactory.createBevelBorder(0));
-    whereBallPanel.setLayout(null);
-    whereBallPanel.setBounds(1620, 20, 280, 130);
-
-    ballLocateLabel  = new JLabel();
-    ballLocateLabel.setText("Ball Location");
-    ballLocateLabel.setBounds(5, 5, 270, 20);
-    xCoordsLabel = new JLabel();
-    xCoordsLabel.setText("X =");
-    xCoordsLabel.setBounds(10, 40, 50, 20);
-    yCoordsLabel = new JLabel();
-    yCoordsLabel.setText("Y =");
-    yCoordsLabel.setBounds(10, 70, 50, 20);
-    xLabel = new JLabel();
-    xLabel.setText(String.valueOf(movePanel.getCenterX()));
-    xLabel.setBounds(70, 40, 50, 20);
-    yLabel = new JLabel();
-    yLabel.setText(String.valueOf(movePanel.getCenterY()));
-    yLabel.setBounds(70, 70, 50, 20);
 
     whereBallPanel.add(ballLocateLabel);
     whereBallPanel.add(xCoordsLabel);
     whereBallPanel.add(yCoordsLabel);
-    whereBallPanel.add(xLabel);
-    whereBallPanel.add(yLabel);
-    ////// END OF OBJECTS FOR SMALL PANEL ON THE CONROLPANEL ////////
-
+    //
+    // speedInput = new JTextField();
+    // speedInput.setBounds(960, 20, 70, 30);
+    // controlPanel.add(speedInput);
+    //
+    //
     controlPanel.add(startButton);
     controlPanel.add(pauseButton);
     controlPanel.add(quitButton);
@@ -182,15 +155,7 @@ public class RicochetUI extends JFrame
     controlPanel.add(refreshLabel);
     controlPanel.add(speedLabel);
     controlPanel.add(directionLabel);
-    controlPanel.add(speedInput);
-    controlPanel.add(refreshInput);
-    controlPanel.add(directionInput);
-    controlPanel.add(whereBallPanel);
     //
-    add(titlePanel);
-    add(movePanel);
-    add(controlPanel);
-
     buttonhandler myButtons = new buttonhandler();
     startButton.addActionListener(myButtons);
     resumeButton.addActionListener(myButtons);
@@ -200,7 +165,15 @@ public class RicochetUI extends JFrame
 
     clockhandler = new Clockhandlerclass();
 
-  } //end of constructor
+    add(titlePanel);
+    add(movePanel);
+    add(controlPanel);
+    //
+    // toBase1 = new Computations(movePanel.orderOfBases[0].getX(), movePanel.orderOfBases[1].getX(),
+    //                             movePanel.orderOfBases[0].getY(), movePanel.orderOfBases[1].getY());
+    // movePanel.updateDelta(toBase1.getDeltaX(), toBase1.getDeltaY());
+
+  }// end of constructor
   private class buttonhandler implements ActionListener
   {
     boolean active;
@@ -211,30 +184,12 @@ public class RicochetUI extends JFrame
         try
         {
           speed = (Double.valueOf(speedInput.getText()));
-          refreshRate = (Double.valueOf(refreshInput.getText()));
-          direction = (Double.valueOf(directionInput.getText()));
           if (speed < 0)
           {
             throw new Exception("Speed cannot be negative!");
           }
-          if (refreshRate < 0)
-          {
-            throw new Exception("refreshRate cannot be negative!");
-          }
-        }
-        catch(Exception e)
-        {
-          if(e instanceof NumberFormatException) {
-            System.out.println("One of the text boxes was not defined! Please input into ALL box.");
-          }
-          System.out.println("Error: " + e);
-        }
-        try
-        {
-          math = new Algorithm(direction);
-          refreshclock = new Timer((int)Math.round(1000/refreshRate), clockhandler);
-          motionclock = new Timer(((int)Math.round(1000/99.78)), clockhandler);
-          movePanel.updateDelta(math.getDeltaX(), math.getDeltaY());
+          refreshclock = new Timer((int)Math.round(1000/60.47), clockhandler);
+          motionclock = new Timer(((int)Math.round(1000/speed)), clockhandler);
           movePanel.setSpeed(speed);
           active = true;
           refreshclock.start();
@@ -244,6 +199,9 @@ public class RicochetUI extends JFrame
         }
         catch(Exception e)
         {
+          if(e instanceof NumberFormatException) {
+            System.out.println("Speed was not defined! Please input the speed.");
+          }
           System.out.println("Error: " + e);
         }
       }
@@ -251,45 +209,11 @@ public class RicochetUI extends JFrame
       {
         if(!active)
         {
-          try
-          {
-            speed = (Double.valueOf(speedInput.getText()));
-            refreshRate = (Double.valueOf(refreshInput.getText()));
-            direction = (Double.valueOf(directionInput.getText()));
-            if (speed < 0)
-            {
-              throw new Exception("Speed cannot be negative!");
-            }
-            if (refreshRate < 0)
-            {
-              throw new Exception("Refresh Rate cannot be negative!");
-            }
-          }
-          catch(Exception e)
-          {
-            if(e instanceof NumberFormatException) {
-              System.out.println("One of the text boxes was not defined! Please input into ALL box.");
-            }
-            System.out.println("Error: " + e);
-          }
-          try
-          {
-            math = new Algorithm(direction);
-            refreshclock = new Timer((int)Math.round(1000/refreshRate), clockhandler);
-            motionclock = new Timer(((int)Math.round(1000/99.78)), clockhandler);
-            
-            movePanel.setSpeed(speed);
-            movePanel.updateDelta(math.getDeltaX(), math.getDeltaY());
-            active = true;
-            refreshclock.start();
-            motionclock.start();
-            startButton.setVisible(false); //replaces startButton with pauseButton
-            pauseButton.setVisible(true);
-          }
-          catch(Exception e)
-          {
-            System.out.println("Error: " + e);
-          }
+          refreshclock.start();
+          motionclock.start();
+          resumeButton.setVisible(false); //replaces pauseButton with startButton
+          pauseButton.setVisible(true);
+          active = true;
         }
       }
       else if(event.getSource() == pauseButton)
@@ -318,38 +242,33 @@ public class RicochetUI extends JFrame
         resumeButton.setVisible(false);
         pauseButton.setVisible(false);
         movePanel.initializeBall();
-        movePanel.repaint();
-        xLabel.setText(String.valueOf(movePanel.getCenterX()));
-        yLabel.setText(String.valueOf(movePanel.getCenterY()));
       }
       else if(event.getSource() == quitButton)
       {
         System.exit(0);
-      }
+      }// implements the quit button
       else
       {
         System.out.println("Button error");
       }
     }
-  }
+  }//end of button class
+
   private class Clockhandlerclass implements ActionListener
   {
     public void actionPerformed(ActionEvent event)
     {
-      // boolean animation_continues = false;
+      boolean animation_continues = false;
       if(event.getSource() == refreshclock)
       {
         movePanel.repaint();
       }
       else if(event.getSource() == motionclock)
       {
-        movePanel.updateBall2();
-        xLabel.setText(String.valueOf(movePanel.getCenterX()));
-        yLabel.setText(String.valueOf(movePanel.getCenterY()));
+        //animation_continues = movePanel.updateRunner();
       }//End of if(event.getSource() == motionclock)
       else
          System.out.printf("%s\n","There is a bug in one of the clocks.");
      }//End of method actionPerformed
   }//End of Clockhandlerclass
-
-} //end of RicochetUI class
+}//end of class

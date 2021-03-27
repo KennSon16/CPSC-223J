@@ -28,26 +28,19 @@
   //Base test system: Linux system with Bash shell and openjdk-14-jdk
 
 //This module
-  //File name: Algorithm.java
-  //Compile : javac Algorithm.java
+  //File name: RicochetBall.java
+  //Compile : javac RicochetBall.java
   //This is the top level module.  This module activates the user interface.
 
-
-public class Algorithm
+import javax.swing.JFrame;
+public class RicochetBall
 {
-  double dx, dy, radians;
-  public Algorithm(double direction)
+  public static void main(String[] args)
   {
-    radians = Math.toRadians(direction);
-    this.dx = Math.cos(radians);
-    this.dy = Math.sin(radians);
-  }
-  public double getDeltaY()
-  {
-    return dy;
-  }
-  public double getDeltaX()
-  {
-    return dx;
-  }
-}
+    RicochetUI myframe = new RicochetUI();
+    myframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    myframe.setSize(1920,1080);
+    myframe.setResizable(false);
+    myframe.setVisible(true);
+  }//End of RicochetBall
+}//End of class RicochetBall
