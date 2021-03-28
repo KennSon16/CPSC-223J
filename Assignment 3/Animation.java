@@ -68,7 +68,7 @@ public class Animation extends JPanel
     bases.setColor(new Color(1, 145, 56));
     bases.fillRect(0, 0, 1920, 880); //repaints the panel background
 
-    //repaints ball or runner
+    //repaints ball
     bases.setColor(new Color(255, 43, 110));
     bases.drawOval(ballUpperCornerPos.getX(), ballUpperCornerPos.getY(), (int)Math.round(ballDiameter),(int)Math.round(ballDiameter));
     bases.fillOval(ballUpperCornerPos.getX(), ballUpperCornerPos.getY(),
@@ -85,78 +85,8 @@ public class Animation extends JPanel
     ballUpperCornerPos = new Position((int)Math.round(ballUpperCornerX), (int)Math.round(ballUpperCornerY));
   }
 
-  public boolean updateBall()
-  {
-    if ( (ballUpperCornerPos.getY() + speed*deltaY) <= 0)
-    {
-      if (deltaX == 0)
-      {
-        ballCenterY = 0 + ballRadius;
-        deltaY *= -1.0;
-      }
-      else
-      {
-        ballCenterX = ballCenterX + (0 + ballRadius)*(deltaX/deltaY);
-        ballCenterY = 0 + ballRadius;
-        deltaY *= -1.0;
-      }
-    }
-    else if( (ballUpperCornerPos.getY() + speed*deltaY) >= 780 - ballDiameter)
-    {
-      if (deltaX == 0)
-      {
-        ballCenterY = 0 + ballRadius;
-        deltaY *= -1.0;
-      }
-      else
-      {
-        ballCenterX = (ballCenterX + (780 - ballRadius)*(deltaX/deltaY));
-        ballCenterY = 0 + ballRadius;
-        deltaY *= -1.0;
-      }
-    }
-    else if( (ballUpperCornerPos.getX() + speed*deltaX) <= 0)
-    {
-      if (deltaX == 0)
-      {
-        ballCenterY = 0 + ballRadius;
-        deltaX *= -1.0;
-      }
-      else
-      {
-        ballCenterX = 0 + ballRadius;
-        ballCenterY = ballCenterY + (780 - ballRadius)*(deltaY/deltaX);
-        deltaX *= -1.0;
-      }
-    }
-    else if( (ballUpperCornerPos.getX() + speed*deltaX) >= 1920 - ballDiameter)
-    {
-      if (deltaX == 0)
-      {
-        ballCenterY = 0 + ballRadius;
-        deltaX *= -1.0;
-      }
-      else
-      {
-        ballCenterX =
-        ballCenterY = ballCenterY + (780 - ballRadius)*(deltaY/deltaX);
-        deltaX *= -1.0;
-      }
-    }
-    else
-    {
-      ballCenterX += deltaX;
-      ballCenterY += deltaY;
-    }
-    ballUpperCornerX = ballCenterX - ballRadius;
-    ballUpperCornerY = ballCenterY - ballRadius;
-    ballUpperCornerPos.setX((int)Math.round(ballUpperCornerX));
-    ballUpperCornerPos.setY((int)Math.round(ballUpperCornerY));
-
-    return successfulMove;
-  }//End of updateRunner
-  public void updateBall2()
-  {
+  public void updateBall()
+  { //changes the direction of the ball and it hits the boarder of the panel
     ballCenterX += speed*deltaX;
     ballCenterY += speed*deltaY;
     if (ballCenterX <= 0 + ballRadius || ballCenterX >= 1920 - ballRadius)
@@ -193,7 +123,6 @@ public class Animation extends JPanel
   {
     return ballCenterY;
   }
-
 }//End of class Animation
 class Position
 {//simple position class to store an obejects coordinates as integers

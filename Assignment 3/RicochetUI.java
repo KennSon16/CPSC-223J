@@ -186,7 +186,7 @@ public class RicochetUI extends JFrame
     controlPanel.add(refreshInput);
     controlPanel.add(directionInput);
     controlPanel.add(whereBallPanel);
-    //
+    
     add(titlePanel);
     add(movePanel);
     add(controlPanel);
@@ -208,7 +208,7 @@ public class RicochetUI extends JFrame
     {
       if(event.getSource() == startButton)
       {
-        try
+        try //makes sure all textFields are filled
         {
           speed = (Double.valueOf(speedInput.getText())/1000)*99.873;
           refreshRate = (Double.valueOf(refreshInput.getText()));
@@ -251,7 +251,7 @@ public class RicochetUI extends JFrame
       {
         if(!active)
         {
-          try
+          try //makes sure all textFields are filled
           {
             speed = (Double.valueOf(speedInput.getText())/1000)*99.873;
             refreshRate = (Double.valueOf(refreshInput.getText()));
@@ -283,7 +283,7 @@ public class RicochetUI extends JFrame
             active = true;
             refreshclock.start();
             motionclock.start();
-            startButton.setVisible(false); //replaces startButton with pauseButton
+            startButton.setVisible(false); //replaces resumeButton with pauseButton
             pauseButton.setVisible(true);
           }
           catch(Exception e)
@@ -339,14 +339,13 @@ public class RicochetUI extends JFrame
   {
     public void actionPerformed(ActionEvent event)
     {
-      // boolean animation_continues = false;
       if(event.getSource() == refreshclock)
       {
         movePanel.repaint();
       }
       else if(event.getSource() == motionclock)
       {
-        movePanel.updateBall2();
+        movePanel.updateBall();
         xLabel.setText(String.valueOf(movePanel.getCenterX()));
         yLabel.setText(String.valueOf(movePanel.getCenterY()));
       }//End of if(event.getSource() == motionclock)
