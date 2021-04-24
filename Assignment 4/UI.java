@@ -1,5 +1,6 @@
 //****************************************************************************************************************************
-//Program name: "Ricochet Ball".  This program shows the speed of a baseball runner running to each base with the inputed  *
+//Program name: "Cat and Mouse".  This program shows the speed of a mouse running while being chased by a cat represented    *
+//               with a big and small circle                                                                                 *
 //              speed.                                                                                                       *
 //Copyright (C) 2021 Kenn Son                                                                                                *
 //This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License  *
@@ -16,11 +17,11 @@
   //E-mail: kenneki@csu.fullerton.edu
 
 //Program information:
-  //Program name: RicochetBall
+  //Program name: CatAndMouse
   //Programming language: Java
-  //Files: RicochetBall.java, RicochetUI.java, Algorithm.java, Animation.java, run.sh
-  //Date project began: 2021-March-17.
-  //Date of last update: 2021-March-28.
+  //Files: CatAndMouse.java, UI.java, Animation.java, run.sh
+  //Date project began: 2021-Apirl-23.
+  //Date of last update: 2021-Apirl-24.
   //Status: Creating the gui.
   //Purpose: This program shows a simple user-interface that allows the user to input a speed to show a ball ricochet from the side of the panel,
   //         shown through an animation. Two buttons are added to start and stop the ball.
@@ -28,15 +29,15 @@
   //Base test system: Linux system with Bash shell and openjdk-14-jdk
 
 //This module
-  //File name: RicochetUI.java
-  //Compile : javac RicochetUI.java
+  //File name: UI.java
+  //Compile : javac UI.java
   //This is the top level module.  This module activates the user interface.
 
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 
-public class RicochetUI extends JFrame
+public class UI extends JFrame
 {
   ////TITLE PANELS OBJECTS////
   private JPanel titlePanel;
@@ -45,17 +46,11 @@ public class RicochetUI extends JFrame
   private Animation movePanel;
   ////CONTROL PANELS OBJECTS////
   private JPanel controlPanel;
-  private JPanel whereBallPanel;
-  private JLabel speedLabel;
-  private JLabel refreshLabel;
+  private JLabel mouseSpeedLabel;
+  private JLabel catSpeedLabel;
   private JLabel directionLabel;
-  private JLabel ballLocateLabel;
-  private JLabel xCoordsLabel;
-  private JLabel yCoordsLabel;
-  private JLabel xLabel;
-  private JLabel yLabel;
-  private JTextField speedInput;
-  private JTextField refreshInput;
+  private JTextField mouseInput;
+  private JTextField catInput;
   private JTextField directionInput;
   private JButton startButton;
   private JButton pauseButton;
@@ -64,15 +59,17 @@ public class RicochetUI extends JFrame
   private JButton quitButton;
   ////RUNNER SPEED OBJECTS////
   private Clockhandlerclass clockhandler;
-  private double speed;
+  private double mouseSpeed;
+  private double catSpeed;
   private double refreshRate;
   private double direction;
-  private Timer refreshclock;
-  private Timer motionclock;
-  private Algorithm math;
-
-  public RicochetUI() //constructor
-  {//setting the dimensions and layout for the frame
+  private Timer refreshClock;
+  private Timer mouseClock;
+  private Timer catClock;
+  private int cat_clock_delay_interval;
+  private int mouse_clock_delay_interval;
+  public UI()
+  {
     super("Program 3");
     setLocationRelativeTo(null);
     setLayout(null);
@@ -83,14 +80,12 @@ public class RicochetUI extends JFrame
     titlePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
     titleLabel = new JLabel();
-    titleLabel.setText("<html>Ricochet Ball Animation<br/> by Kenn Son");
+    titleLabel.setText("<html>Cat and Mouse Animation<br/> by Kenn Son");
     titlePanel.add(titleLabel);
-
     //********ANIMATION PANEL********//
     //128, 235, 52 RGB color looks like grass!
     movePanel = new Animation();
-    movePanel.initializeBall();
-
+    movePanel.initializeCatAndMouse();
 
 
     //**********MARCO PANEL**********//
@@ -122,76 +117,32 @@ public class RicochetUI extends JFrame
     quitButton.setText("Quit");
     quitButton.setBounds(1320, 20, 100, 40);
 
-    refreshLabel = new JLabel();
-    refreshLabel.setText("Refresh Rate (Hz)");
-    refreshLabel.setBackground(new Color(9, 232, 91));
-    refreshLabel.setOpaque(true);
-    refreshLabel.setBounds(175, 80, 150, 20);
+    catSpeedLabel = new JLabel();
+    catSpeedLabel.setText("Speed (Cat)");
+    catSpeedLabel.setBackground(new Color(9, 232, 91));
+    catSpeedLabel.setOpaque(true);
+    catSpeedLabel.setBounds(175, 80, 150, 20);
 
-    speedLabel = new JLabel();
-    speedLabel.setText("Speed (pix/sec)");
-    speedLabel.setBackground(new Color(9, 232, 91));
-    speedLabel.setOpaque(true);
-    speedLabel.setBounds(735, 80, 150, 20);
+    mouseSpeedLabel = new JLabel();
+    mouseSpeedLabel.setText("Speed (Mouse)");
+    mouseSpeedLabel.setBackground(new Color(9, 232, 91));
+    mouseSpeedLabel.setOpaque(true);
+    mouseSpeedLabel.setBounds(735, 80, 150, 20);
 
     directionLabel = new JLabel();
-    directionLabel.setText("Direction (pix/sec)");
+    directionLabel.setText("Mouse Direction");
     directionLabel.setBackground(new Color(9, 232, 91));
     directionLabel.setOpaque(true);
-    directionLabel.setBounds(1320-25, 80, 150, 20);
+    directionLabel.setBounds(1295, 80, 150, 20);
 
-    speedInput = new JTextField();
-    speedInput.setBounds(175, 105, 150, 30);
-    refreshInput = new JTextField();
-    refreshInput.setBounds(735, 105, 150, 30);
+    catInput = new JTextField();
+    catInput.setBounds(175, 105, 150, 30);
+
+    mouseInput = new JTextField();
+    mouseInput.setBounds(735, 105, 150, 30);
+
     directionInput = new JTextField();
     directionInput.setBounds(1295, 105, 150, 30);
-
-    ////// OBJECTS FOR SMALL PANEL ON THE CONROLPANEL ////////
-    whereBallPanel = new JPanel();
-    whereBallPanel.setBorder(BorderFactory.createBevelBorder(0));
-    whereBallPanel.setLayout(null);
-    whereBallPanel.setBounds(1620, 20, 280, 130);
-
-    ballLocateLabel  = new JLabel();
-    ballLocateLabel.setText("Ball Location");
-    ballLocateLabel.setBounds(5, 5, 270, 20);
-    xCoordsLabel = new JLabel();
-    xCoordsLabel.setText("X =");
-    xCoordsLabel.setBounds(10, 40, 50, 20);
-    yCoordsLabel = new JLabel();
-    yCoordsLabel.setText("Y =");
-    yCoordsLabel.setBounds(10, 70, 50, 20);
-    xLabel = new JLabel();
-    xLabel.setText(String.valueOf(movePanel.getCenterX()));
-    xLabel.setBounds(70, 40, 50, 20);
-    yLabel = new JLabel();
-    yLabel.setText(String.valueOf(movePanel.getCenterY()));
-    yLabel.setBounds(70, 70, 50, 20);
-
-    whereBallPanel.add(ballLocateLabel);
-    whereBallPanel.add(xCoordsLabel);
-    whereBallPanel.add(yCoordsLabel);
-    whereBallPanel.add(xLabel);
-    whereBallPanel.add(yLabel);
-    ////// END OF OBJECTS FOR SMALL PANEL ON THE CONROLPANEL ////////
-
-    controlPanel.add(startButton);
-    controlPanel.add(pauseButton);
-    controlPanel.add(quitButton);
-    controlPanel.add(resumeButton);
-    controlPanel.add(clearButton);
-    controlPanel.add(refreshLabel);
-    controlPanel.add(speedLabel);
-    controlPanel.add(directionLabel);
-    controlPanel.add(speedInput);
-    controlPanel.add(refreshInput);
-    controlPanel.add(directionInput);
-    controlPanel.add(whereBallPanel);
-
-    add(titlePanel);
-    add(movePanel);
-    add(controlPanel);
 
     buttonhandler myButtons = new buttonhandler();
     startButton.addActionListener(myButtons);
@@ -200,28 +151,45 @@ public class RicochetUI extends JFrame
     pauseButton.addActionListener(myButtons);
     quitButton.addActionListener(myButtons);
 
-    clockhandler = new Clockhandlerclass();
+    controlPanel.add(clearButton);
+    controlPanel.add(startButton);
+    controlPanel.add(resumeButton);
+    controlPanel.add(pauseButton);
+    controlPanel.add(quitButton);
+    controlPanel.add(catSpeedLabel);
+    controlPanel.add(mouseSpeedLabel);
+    controlPanel.add(directionLabel);
+    controlPanel.add(mouseInput);
+    controlPanel.add(catInput);
+    controlPanel.add(directionInput);
 
-  } //end of constructor
+    add(titlePanel);
+    add(movePanel);
+    add(controlPanel);
+
+    clockhandler = new Clockhandlerclass();
+    refreshClock = new Timer((int)Math.round(1000/120), clockhandler);
+
+  }
   private class buttonhandler implements ActionListener
   {
     boolean active;
     public void actionPerformed(ActionEvent event)
     {
       if(event.getSource() == startButton)
-      {
-        try //makes sure all textFields are filled
+      {//makes sure all textFields are filled
+        try
         {
-          speed = (Double.valueOf(speedInput.getText())/1000)*99.873;
-          refreshRate = (Double.valueOf(refreshInput.getText()));
+          mouseSpeed = (Double.valueOf(mouseInput.getText()));
+          catSpeed = (Double.valueOf(catInput.getText()));
           direction = (Double.valueOf(directionInput.getText()));
-          if (speed < 0)
+
+          cat_clock_delay_interval = (int)Math.round(1000/catSpeed);
+          mouse_clock_delay_interval = (int)Math.round(1000/mouseSpeed);
+
+          if (mouseSpeed < 0 || catSpeed < 0)
           {
             throw new Exception("Speed cannot be negative!");
-          }
-          if (refreshRate < 0)
-          {
-            throw new Exception("refreshRate cannot be negative!");
           }
         }
         catch(Exception e)
@@ -233,14 +201,15 @@ public class RicochetUI extends JFrame
         }
         try
         {
-          math = new Algorithm(direction);
-          refreshclock = new Timer((int)Math.round(1000/refreshRate), clockhandler);
-          motionclock = new Timer(((int)Math.round(1000/99.78)), clockhandler);
-          movePanel.updateDelta(math.getDeltaX(), math.getDeltaY());
-          movePanel.setSpeed(speed);
+          catClock = new Timer(cat_clock_delay_interval, clockhandler);
+          mouseClock = new Timer(mouse_clock_delay_interval, clockhandler);
+          movePanel.setMouseSpeed(mouseSpeed);
+          movePanel.setCatSpeed(catSpeed);
+          movePanel.updateMouseDelta(direction);
           active = true;
-          refreshclock.start();
-          motionclock.start();
+          refreshClock.start();
+          mouseClock.start();
+          catClock.start();
           startButton.setVisible(false); //replaces startButton with pauseButton
           pauseButton.setVisible(true);
         }
@@ -255,16 +224,16 @@ public class RicochetUI extends JFrame
         {
           try //makes sure all textFields are filled
           {
-            speed = (Double.valueOf(speedInput.getText())/1000)*99.873;
-            refreshRate = (Double.valueOf(refreshInput.getText()));
+            mouseSpeed = (Double.valueOf(mouseInput.getText()));
+            catSpeed = (Double.valueOf(catInput.getText()));
             direction = (Double.valueOf(directionInput.getText()));
-            if (speed < 0)
+
+            cat_clock_delay_interval = (int)Math.round(1000/catSpeed);
+            mouse_clock_delay_interval = (int)Math.round(1000/mouseSpeed);
+
+            if (catSpeed < 0 || mouseSpeed < 0)
             {
               throw new Exception("Speed cannot be negative!");
-            }
-            if (refreshRate < 0)
-            {
-              throw new Exception("Refresh Rate cannot be negative!");
             }
           }
           catch(Exception e)
@@ -276,15 +245,16 @@ public class RicochetUI extends JFrame
           }
           try
           {
-            math = new Algorithm(direction);
-            refreshclock = new Timer((int)Math.round(1000/refreshRate), clockhandler);
-            motionclock = new Timer(((int)Math.round(1000/99.873)), clockhandler);
+            catClock = new Timer(cat_clock_delay_interval, clockhandler);
+            mouseClock = new Timer(mouse_clock_delay_interval, clockhandler);
 
-            movePanel.setSpeed(speed);
-            movePanel.updateDelta(math.getDeltaX(), math.getDeltaY());
+            movePanel.setMouseSpeed(mouseSpeed);
+            movePanel.setCatSpeed(catSpeed);
+            movePanel.updateMouseDelta(direction);
             active = true;
-            refreshclock.start();
-            motionclock.start();
+            refreshClock.start();
+            mouseClock.start();
+            catClock.start();
             startButton.setVisible(false); //replaces resumeButton with pauseButton
             pauseButton.setVisible(true);
           }
@@ -298,34 +268,35 @@ public class RicochetUI extends JFrame
       {
         if(active)
         {
-          refreshclock.stop();
-          motionclock.stop();
-          resumeButton.setVisible(true); //replaces pauseButton with startButton
+          refreshClock.stop();
+          mouseClock.stop();
+          catClock.stop();
+          resumeButton.setVisible(true); //replaces pauseButton with resumeButton
           pauseButton.setVisible(false);
           active = false;
         }
         else
         {
-          refreshclock.start();
-          motionclock.start();
+          refreshClock.start();
+          mouseClock.start();
+          catClock.start();
           active = true;
         }
       }
       else if(event.getSource() == clearButton)
       {
-        refreshclock.stop();
-        motionclock.stop();
+        refreshClock.stop();
+        mouseClock.stop();
+        catClock.stop();
         active = false;
         startButton.setVisible(true);
         resumeButton.setVisible(false);
         pauseButton.setVisible(false);
-        movePanel.initializeBall();
-        speedInput.setText("");
-        refreshInput.setText("");
+        movePanel.initializeCatAndMouse();
+        mouseInput.setText("");
+        catInput.setText("");
         directionInput.setText("");
         movePanel.repaint();
-        xLabel.setText(String.valueOf(movePanel.getCenterX()));
-        yLabel.setText(String.valueOf(movePanel.getCenterY()));
       }
       else if(event.getSource() == quitButton)
       {
@@ -339,21 +310,32 @@ public class RicochetUI extends JFrame
   }
   private class Clockhandlerclass implements ActionListener
   {
+    double distance;
+    boolean caught = false;
     public void actionPerformed(ActionEvent event)
     {
-      if(event.getSource() == refreshclock)
+      if(event.getSource() == refreshClock)
       {
         movePanel.repaint();
       }
-      else if(event.getSource() == motionclock)
+      else if(event.getSource() == mouseClock)
       {
-        movePanel.updateBall();
-        xLabel.setText(String.valueOf(movePanel.getCenterX()));
-        yLabel.setText(String.valueOf(movePanel.getCenterY()));
-      }//End of if(event.getSource() == motionclock)
+        movePanel.updateMouse();
+      }//End of if(event.getSource() == mouseClock)
+      else if(event.getSource() == catClock)
+      {
+        caught = movePanel.updateCat();
+        distance = movePanel.getDistance();
+
+        if(caught)
+        {
+          refreshClock.stop();
+          mouseClock.stop();
+          catClock.stop();
+        }
+      }
       else
          System.out.printf("%s\n","There is a bug in one of the clocks.");
      }//End of method actionPerformed
   }//End of Clockhandlerclass
-
-} //end of RicochetUI class
+}
