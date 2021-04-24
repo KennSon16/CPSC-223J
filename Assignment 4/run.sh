@@ -19,13 +19,13 @@ ls -l *.java
 echo Compile Animation.java
 javac Animation.java
 
-echo Compile RicochetUI.java
+echo Compile UI.java
 javac UI.java
 
-echo Compile RicochetBall.java
+echo Compile CatAndMouse.java
 javac CatAndMouse.java
 
-echo Execute the RicochetBall program
+echo Execute the CatAndMouse program
 java CatAndMouse.java
 
 echo End of execution.  Have a nice day.

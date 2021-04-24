@@ -23,8 +23,8 @@
   //Date project began: 2021-Apirl-23.
   //Date of last update: 2021-Apirl-24.
   //Status: Creating the gui.
-  //Purpose: This program shows a simple user-interface that allows the user to input a speed to show a ball ricochet from the side of the panel,
-  //         shown through an animation. Two buttons are added to start and stop the ball.
+  //Purpose: This program shows a simple user-interface that allows the user to input speed of a cat and mouse
+  //          and see an animation of the cat chasing a mouse running at a given direction.
   //Nice feature: If no values are entered into the input boxes then zero is assumed to be the input.
   //Base test system: Linux system with Bash shell and openjdk-14-jdk
 
