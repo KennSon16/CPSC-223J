@@ -105,6 +105,8 @@ public class Animation extends JPanel
     mouseUpperCornerPos = new Position((int)Math.round(mouseUpperCornerX), (int)Math.round(mouseUpperCornerY));
 
     //sets the cat to the top left corner of the PANEL
+    lengthOfLine = Math.sqrt(Math.pow((mouseCenterX - catCenterX), 2) + Math.pow((mouseCenterY - catCenterY), 2));
+
     catCenterX = 10;
     catCenterY =  10;
     catCaughtMouse = false;

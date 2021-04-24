@@ -49,6 +49,9 @@ public class UI extends JFrame
   private JLabel mouseSpeedLabel;
   private JLabel catSpeedLabel;
   private JLabel directionLabel;
+  private JLabel doneLabel;
+  private JLabel compareLabel;
+  private JLabel distanceLabel;
   private JTextField mouseInput;
   private JTextField catInput;
   private JTextField directionInput;
@@ -113,6 +116,11 @@ public class UI extends JFrame
     pauseButton.setVisible(false);
     pauseButton.setBounds(760, 20, 100, 40);
 
+    doneLabel = new JLabel();
+    doneLabel.setText("<html>Mouse has been caught!!!<br/>Press clear to reset!");
+    doneLabel.setVisible(false);
+    doneLabel.setBounds(740, 20, 180, 60);
+
     quitButton = new JButton();
     quitButton.setText("Quit");
     quitButton.setBounds(1320, 20, 100, 40);
@@ -135,6 +143,18 @@ public class UI extends JFrame
     directionLabel.setOpaque(true);
     directionLabel.setBounds(1295, 80, 150, 20);
 
+    distanceLabel = new JLabel();
+    distanceLabel.setText("Distance in between");
+    distanceLabel.setBackground(new Color(9, 232, 91));
+    distanceLabel.setOpaque(true);
+    distanceLabel.setBounds(1650, 80, 200, 20);
+
+    compareLabel = new JLabel();
+    compareLabel.setText( String.valueOf(movePanel.getDistance()));
+    compareLabel.setBackground(new Color(9, 232, 91));
+    compareLabel.setOpaque(true);
+    compareLabel.setBounds(1650, 100, 200, 20);
+
     catInput = new JTextField();
     catInput.setBounds(175, 105, 150, 30);
 
@@ -156,12 +176,15 @@ public class UI extends JFrame
     controlPanel.add(resumeButton);
     controlPanel.add(pauseButton);
     controlPanel.add(quitButton);
+    controlPanel.add(doneLabel);
     controlPanel.add(catSpeedLabel);
     controlPanel.add(mouseSpeedLabel);
     controlPanel.add(directionLabel);
     controlPanel.add(mouseInput);
     controlPanel.add(catInput);
     controlPanel.add(directionInput);
+    controlPanel.add(distanceLabel);
+    controlPanel.add(compareLabel);
 
     add(titlePanel);
     add(movePanel);
@@ -212,6 +235,7 @@ public class UI extends JFrame
           catClock.start();
           startButton.setVisible(false); //replaces startButton with pauseButton
           pauseButton.setVisible(true);
+          doneLabel.setVisible(false);
         }
         catch(Exception e)
         {
@@ -222,7 +246,7 @@ public class UI extends JFrame
       {
         if(!active)
         {
-          try //makes sure all textFields are filled
+          try
           {
             mouseSpeed = (Double.valueOf(mouseInput.getText()));
             catSpeed = (Double.valueOf(catInput.getText()));
@@ -255,8 +279,9 @@ public class UI extends JFrame
             refreshClock.start();
             mouseClock.start();
             catClock.start();
-            startButton.setVisible(false); //replaces resumeButton with pauseButton
+            resumeButton.setVisible(false); //replaces resumeButton with pauseButton
             pauseButton.setVisible(true);
+            doneLabel.setVisible(false);
           }
           catch(Exception e)
           {
@@ -273,6 +298,7 @@ public class UI extends JFrame
           catClock.stop();
           resumeButton.setVisible(true); //replaces pauseButton with resumeButton
           pauseButton.setVisible(false);
+          doneLabel.setVisible(false);
           active = false;
         }
         else
@@ -292,6 +318,7 @@ public class UI extends JFrame
         startButton.setVisible(true);
         resumeButton.setVisible(false);
         pauseButton.setVisible(false);
+        doneLabel.setVisible(false);
         movePanel.initializeCatAndMouse();
         mouseInput.setText("");
         catInput.setText("");
@@ -326,12 +353,17 @@ public class UI extends JFrame
       {
         caught = movePanel.updateCat();
         distance = movePanel.getDistance();
-
+        compareLabel.setText( String.valueOf(distance));
         if(caught)
         {
-          refreshClock.stop();
+          compareLabel.setText( String.valueOf(0));
           mouseClock.stop();
           catClock.stop();
+
+          refreshClock.stop();
+          resumeButton.setVisible(false);
+          pauseButton.setVisible(false);
+          doneLabel.setVisible(true);
         }
       }
       else
