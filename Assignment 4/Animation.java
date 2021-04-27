@@ -139,15 +139,17 @@ public class Animation extends JPanel
     catDeltaX = (mouseCenterX - catCenterX) / lengthOfLine;
     catDeltaY = (mouseCenterY - catCenterY) / lengthOfLine;
     catMovePerTick = Math.sqrt(catDeltaX*catDeltaX + catDeltaY*catDeltaY);
-    if(lengthOfLine > catSpeed * catMovePerTick)
+    if((lengthOfLine-((catRadius+mouseRadius)/2)) >= catSpeed * catMovePerTick)
     {
       catCenterY += catSpeed * catDeltaY;
       catCenterX += catSpeed * catDeltaX;
     }
     else
     {
-      catCenterY = mouseCenterX;
-      catCenterX = mouseCenterY;
+      catCenterY += catSpeed * catDeltaY;
+      catCenterX += catSpeed * catDeltaX;
+      // catCenterY = mouseCenterX;
+      // catCenterX = mouseCenterY;
       catCaughtMouse = true;
     }
 

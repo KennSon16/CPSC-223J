@@ -209,10 +209,12 @@ public class UI extends JFrame
 
           cat_clock_delay_interval = (int)Math.round(1000/catSpeed);
           mouse_clock_delay_interval = (int)Math.round(1000/mouseSpeed);
-
-          if (mouseSpeed < 0 || catSpeed < 0)
-          {
-            throw new Exception("Speed cannot be negative!");
+          //speed is determined by user input
+          if (catSpeed < 0 || mouseSpeed < 0)
+          {//make sure the user doesn't input a negative number
+            catSpeed = Math.abs(catSpeed);
+            mouseSpeed = Math.abs(mouseSpeed);
+            throw new Exception("Speed cannot be negative! Changing to positive number..");
           }
         }
         catch(Exception e)
@@ -256,8 +258,10 @@ public class UI extends JFrame
             mouse_clock_delay_interval = (int)Math.round(1000/mouseSpeed);
 
             if (catSpeed < 0 || mouseSpeed < 0)
-            {
-              throw new Exception("Speed cannot be negative!");
+            {//make sure the user doesn't input a negative number
+              catSpeed = Math.abs(catSpeed);
+              mouseSpeed = Math.abs(mouseSpeed);
+              throw new Exception("Speed cannot be negative! Changing to positive number..");
             }
           }
           catch(Exception e)
@@ -344,7 +348,7 @@ public class UI extends JFrame
       if(event.getSource() == refreshClock)
       {
         movePanel.repaint();
-      }
+      }//End of if(event.getSource() == refreshClock)
       else if(event.getSource() == mouseClock)
       {
         movePanel.updateMouse();
@@ -359,13 +363,13 @@ public class UI extends JFrame
           compareLabel.setText( String.valueOf(0));
           mouseClock.stop();
           catClock.stop();
-
           refreshClock.stop();
+          movePanel.repaint();
           resumeButton.setVisible(false);
           pauseButton.setVisible(false);
           doneLabel.setVisible(true);
         }
-      }
+      }//End of if(event.getSource() == catClock)
       else
          System.out.printf("%s\n","There is a bug in one of the clocks.");
      }//End of method actionPerformed
