@@ -21,11 +21,11 @@
   //Programming language: Java
   //Files: CatAndMouse.java, UI.java, Animation.java, run.sh
   //Date project began: 2021-Apirl-23.
-  //Date of last update: 2021-Apirl-24.
-  //Status: Creating the gui.
+  //Date of last update: 2021-Apirl-27.
+  //Status: Completed.
   //Purpose: This program shows a simple user-interface that allows the user to input speed of a cat and mouse
   //          and see an animation of the cat chasing a mouse running at a given direction.
-  //Nice feature: If no values are entered into the input boxes then zero is assumed to be the input.
+  //Nice feature: If no values are entered into the direction input box then zero is assumed to be the input.
   //Base test system: Linux system with Bash shell and openjdk-14-jdk
 
 //This module
@@ -86,12 +86,11 @@ public class UI extends JFrame
     titleLabel.setText("<html>Cat and Mouse Animation<br/> by Kenn Son");
     titlePanel.add(titleLabel);
     //********ANIMATION PANEL********//
-    //128, 235, 52 RGB color looks like grass!
     movePanel = new Animation();
     movePanel.initializeCatAndMouse();
 
 
-    //**********MARCO PANEL**********//
+  //**********CONTROL PANEL**********//
     controlPanel = new JPanel();
     controlPanel.setBackground(new Color(250, 206, 130));
     controlPanel.setBounds(0, 880 , 1920, 200);
@@ -118,6 +117,7 @@ public class UI extends JFrame
 
     doneLabel = new JLabel();
     doneLabel.setText("<html>Mouse has been caught!!!<br/>Press clear to reset!");
+    doneLabel.setBackground(new Color(235, 67, 52));
     doneLabel.setVisible(false);
     doneLabel.setBounds(740, 20, 180, 60);
 

@@ -20,12 +20,12 @@
   //Program name: CatAndMouse
   //Programming language: Java
   //Files: CatAndMouse.java, UI.java, Animation.java, run.sh
-  //Date project began: 2021-March-17.
-  //Date of last update: 2021-March-28.
-  //Status: Creating the gui.
+  //Date project began: 2021-Apirl-23.
+  //Date of last update: 2021-Apirl-27.
+  //Status: Completed.
   //Purpose: This program shows a simple user-interface that allows the user to input speed of a cat and mouse
   //          and see an animation of the cat chasing a mouse running at a given direction.
-  //Nice feature: If no values are entered into the input boxes then zero is assumed to be the input.
+  //Nice feature: If no values are entered into the direction input box then zero is assumed to be the input.
   //Base test system: Linux system with Bash shell and openjdk-14-jdk
 
 //This module
@@ -135,10 +135,12 @@ public class Animation extends JPanel
 
   public boolean updateCat()
   {
+    //lengthOfLine is figured out by a^2 + b^2 = c^2
     lengthOfLine = Math.sqrt(Math.pow((mouseCenterX - catCenterX), 2) + Math.pow((mouseCenterY - catCenterY), 2));
     catDeltaX = (mouseCenterX - catCenterX) / lengthOfLine;
     catDeltaY = (mouseCenterY - catCenterY) / lengthOfLine;
     catMovePerTick = Math.sqrt(catDeltaX*catDeltaX + catDeltaY*catDeltaY);
+    //the distance for the game to be over is the radius of the cat and mouse combined and divide by 2
     if((lengthOfLine-((catRadius+mouseRadius)/2)) >= catSpeed * catMovePerTick)
     {
       catCenterY += catSpeed * catDeltaY;
@@ -148,8 +150,6 @@ public class Animation extends JPanel
     {
       catCenterY += catSpeed * catDeltaY;
       catCenterX += catSpeed * catDeltaX;
-      // catCenterY = mouseCenterX;
-      // catCenterX = mouseCenterY;
       catCaughtMouse = true;
     }
 
@@ -163,6 +163,8 @@ public class Animation extends JPanel
 
   public void updateMouseDelta(double direction)
   {
+    //direction is negetive here so that the 90 degrees will be going upwards
+    //corresponding to a unit circle.
     radians = Math.toRadians(-direction);
     this.mouseDeltaX = Math.cos(radians);
     this.mouseDeltaY = Math.sin(radians);
