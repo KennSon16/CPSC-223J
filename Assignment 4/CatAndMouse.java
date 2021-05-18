@@ -21,7 +21,7 @@
   //Programming language: Java
   //Files: CatAndMouse.java, UI.java, Animation.java, run.sh
   //Date project began: 2021-Apirl-23.
-  //Date of last update: 2021-Apirl-27.
+  //Date of last update: 2021-May-17.
   //Status: Completed.
   //Purpose: This program shows a simple user-interface that allows the user to input speed of a cat and mouse
   //          and see an animation of the cat chasing a mouse running at a given direction.
