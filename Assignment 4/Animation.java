@@ -172,7 +172,7 @@ public class Animation extends JPanel
 
   public void setMouseSpeed(double mouseSpeed)
   {
-    this.mouseSpeed = mouseSpeed;
+    this.mouseSpeed = mouseSpeed/99.873;
   }
 
   public double getMouseCenterX()
@@ -186,7 +186,7 @@ public class Animation extends JPanel
 
   public void setCatSpeed(double catSpeed)
   {
-    this.catSpeed = catSpeed;
+    this.catSpeed = catSpeed/99.873;
   }
 
   public double getCatCenterX()

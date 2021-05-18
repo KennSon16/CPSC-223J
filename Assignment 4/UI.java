@@ -66,16 +66,24 @@ public class UI extends JFrame
   private double catSpeed;
   private double refreshRate;
   private double direction;
+  private final double motion_clock_rate = 99.873;
+  private final double millisecondpersecond = 1000.0;
   private Timer refreshClock;
   private Timer mouseClock;
   private Timer catClock;
   private int cat_clock_delay_interval;
+  private final double cat_speed_pix_per_second = 88.435;
+  private final double mouse_speed_pix_per_second = 88.435;
+  private double cat_speed_pix_per_tic;
+  private double mouse_speed_pix_per_tic;
   private int mouse_clock_delay_interval;
   public UI()
   {
     super("Program 3");
     setLocationRelativeTo(null);
     setLayout(null);
+    //cat_speed_pix_per_tic = cat_speed_pix_per_second/motion_clock_rate;
+    //mouse_speed_pix_per_tic = mouse_speed_pix_per_second/motion_clock_rate;
     //**********TITLE PANEL**********//
     titlePanel = new JPanel();
     titlePanel.setBackground(new Color(47, 163, 186));
@@ -207,8 +215,8 @@ public class UI extends JFrame
           catSpeed = (Double.valueOf(catInput.getText()));
           direction = (Double.valueOf(directionInput.getText()));
 
-          cat_clock_delay_interval = (int)Math.round(1000/catSpeed);
-          mouse_clock_delay_interval = (int)Math.round(1000/mouseSpeed);
+          cat_clock_delay_interval = (int)Math.round(1000/motion_clock_rate);
+          mouse_clock_delay_interval = (int)Math.round(1000/motion_clock_rate);
           //speed is determined by user input
           if (catSpeed < 0 || mouseSpeed < 0)
           {//make sure the user doesn't input a negative number
@@ -254,8 +262,8 @@ public class UI extends JFrame
             catSpeed = (Double.valueOf(catInput.getText()));
             direction = (Double.valueOf(directionInput.getText()));
 
-            cat_clock_delay_interval = (int)Math.round(1000/catSpeed);
-            mouse_clock_delay_interval = (int)Math.round(1000/mouseSpeed);
+            cat_clock_delay_interval = (int)Math.round(1000/motion_clock_rate);
+            mouse_clock_delay_interval = (int)Math.round(1000/motion_clock_rate);
 
             if (catSpeed < 0 || mouseSpeed < 0)
             {//make sure the user doesn't input a negative number
